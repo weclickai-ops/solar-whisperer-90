@@ -55,7 +55,7 @@ export function SunTrackDiagram() {
         aria-label={`Diagram comparing a fixed-tilt panel with a Glarenergy tracker at ${s.label.toLowerCase()}`}
         className="w-full rounded-[1.75rem] border border-[var(--line)] bg-[var(--bg-elev)]"
       >
-        <title>Fixed-tilt versus tracking panel at {s.label.toLowerCase()}</title>
+        <title>{`Fixed-tilt versus tracking panel at ${s.label.toLowerCase()}`}</title>
         <defs>
           <radialGradient id="sun2">
             <stop offset="0%" stopColor="#EAF8FF" stopOpacity="0.9" />

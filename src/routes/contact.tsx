@@ -5,6 +5,8 @@ import { contact, cta } from "@/data/content";
 import { PageHeader } from "@/components/g/PageHeader";
 import { Reveal } from "@/components/g/Reveal";
 import { GButton } from "@/components/g/GButton";
+import { CtaBand } from "@/components/g/CtaBand";
+import { SectionHead } from "@/components/g/SectionHead";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/contact")({
@@ -45,6 +47,24 @@ const empty: Fields = {
   capacity: "",
   message: "",
 };
+
+const nextSteps = [
+  {
+    number: "01",
+    title: "We read the requirement",
+    body: "Site location, capacity and terrain tell us which configuration applies — 2P-HSAT or 1P.",
+  },
+  {
+    number: "02",
+    title: "An engineer replies",
+    body: "You get a direct answer on tracking range, foundations and layout, not a sales sequence.",
+  },
+  {
+    number: "03",
+    title: "We size the layout",
+    body: "Row count, pile count and ground coverage are worked through against your plot.",
+  },
+];
 
 function Contact() {
   const [values, setValues] = useState<Fields>(empty);

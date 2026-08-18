@@ -108,7 +108,7 @@ function Home() {
         <div className="relative">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -inset-x-6 -inset-y-8 -z-10 overflow-hidden rounded-[2rem]"
+            className="pointer-events-none absolute inset-x-0 -inset-y-8 -z-10 overflow-hidden rounded-[2rem]"
           >
             <img
               src="/images/hero-array.jpg"

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import {
   engineeringItems,
@@ -18,6 +18,7 @@ import { CountUp } from "@/components/g/CountUp";
 import { Marquee } from "@/components/g/Marquee";
 import { CtaBand } from "@/components/g/CtaBand";
 import { Plate } from "@/components/g/Plate";
+import { ParallaxImage } from "@/components/g/ParallaxImage";
 import { HeroScene } from "@/components/svg/HeroScene";
 import { SunTrackDiagram } from "@/components/svg/SunTrackDiagram";
 import { TerrainProfile } from "@/components/svg/TerrainProfile";
@@ -173,6 +174,30 @@ function Home() {
           </div>
           <HeroScene />
         </div>
+      </section>
+
+      {/* 1b — CINEMATIC BAND */}
+      <ParallaxImage
+        src="/images/plant-aerial.jpg"
+        alt="Utility-scale solar plant with rows of single-axis trackers at low sun"
+        className="h-[52vh] min-h-[320px] md:h-[70vh]"
+      />
+
+      {/* 1c — STAT TILES */}
+      <section className="container-g py-16 md:py-20" aria-label="Headline figures">
+        <dl className="grid gap-4 sm:grid-cols-3">
+          {statTiles.map((s, i) => (
+            <Reveal key={s.label} delay={i * 80}>
+              <div className="flex h-full flex-col gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] p-7">
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="font-display text-4xl leading-none text-text md:text-5xl">
+                  {s.value}
+                </dd>
+                <p className="label-sm text-[var(--text-3)]">{s.label}</p>
+              </div>
+            </Reveal>
+          ))}
+        </dl>
       </section>
 
       {/* 2 — MARQUEE */}
@@ -353,6 +378,34 @@ function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 11b — EXPLORE THE SITE */}
+      <section className="container-g py-20 md:py-28" aria-label="Explore Glarenergy">
+        <SectionHead
+          eyebrow="Explore"
+          title="Where to go next"
+          lede="Four routes through the engineering behind Glarenergy trackers."
+        />
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {pageCards.map((c, i) => (
+            <Reveal key={c.to} delay={i * 70}>
+              <Link
+                to={c.to}
+                className="group flex h-full cursor-pointer flex-col justify-between gap-8 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] p-7 transition-colors duration-200 hover:border-[var(--line-blue)]"
+              >
+                <div className="flex flex-col gap-3">
+                  <h3>{c.title}</h3>
+                  <p className="text-sm">{c.description}</p>
+                </div>
+                <span className="label-sm inline-flex items-center gap-2 text-[var(--text-3)] transition-colors duration-200 group-hover:text-[var(--cyan)]">
+                  View
+                  <ArrowRight size={14} aria-hidden="true" />
+                </span>
+              </Link>
+            </Reveal>
+          ))}
         </div>
       </section>
 

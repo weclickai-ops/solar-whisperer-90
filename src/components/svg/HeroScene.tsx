@@ -125,7 +125,7 @@ export function HeroScene() {
                   strokeWidth={1.2}
                 />
                 <g
-                  transform={`rotate(${tilt * 0.22}) scaleY(${Math.max(0.28, Math.cos((tilt * Math.PI) / 180))})`}
+                  transform={`rotate(${tilt * 0.22}) scale(1, ${Math.max(0.28, Math.cos((tilt * Math.PI) / 180))})`}
                 >
                   <rect
                     x={-width / 2}

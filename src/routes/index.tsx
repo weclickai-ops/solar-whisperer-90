@@ -16,6 +16,7 @@ import { GCard } from "@/components/g/GCard";
 import { CountUp } from "@/components/g/CountUp";
 import { Marquee } from "@/components/g/Marquee";
 import { CtaBand } from "@/components/g/CtaBand";
+import { Plate } from "@/components/g/Plate";
 import { HeroScene } from "@/components/svg/HeroScene";
 import { SunTrackDiagram } from "@/components/svg/SunTrackDiagram";
 import { TerrainProfile } from "@/components/svg/TerrainProfile";
@@ -103,7 +104,40 @@ function Home() {
           </dl>
         </div>
 
-        <div>
+        {/* Plate: hero-array.jpg — rows of trackers at low sun, wide landscape */}
+        <div className="relative">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -inset-x-6 -inset-y-8 -z-10 overflow-hidden rounded-[2rem]"
+          >
+            <img
+              src="/images/hero-array.jpg"
+              alt=""
+              width={1920}
+              height={1280}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="plate-media h-full w-full object-cover opacity-55"
+              style={{
+                maskImage:
+                  "radial-gradient(120% 100% at 70% 50%, #000 30%, transparent 78%)",
+                WebkitMaskImage:
+                  "radial-gradient(120% 100% at 70% 50%, #000 30%, transparent 78%)",
+              }}
+            />
+            <div
+              className="absolute inset-0 mix-blend-overlay"
+              style={{ background: "linear-gradient(rgba(0,127,255,0.14), rgba(4,6,12,0.55))" }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to right, rgba(4,6,12,0.96) 0%, rgba(4,6,12,0.7) 45%, rgba(4,6,12,0.35) 100%)",
+              }}
+            />
+          </div>
           <HeroScene />
         </div>
       </section>
@@ -132,6 +166,27 @@ function Home() {
               </div>
             ))}
           </dl>
+        </Reveal>
+      </section>
+
+      {/* 3b — PLANT BAND */}
+      {/* Plate: plant-aerial.jpg — aerial of a solar plant, tracker rows as lines */}
+      <section className="container-g pb-20 md:pb-24" aria-label="Utility-scale deployment">
+        <Reveal>
+          <Plate
+            src="/images/plant-aerial.jpg"
+            alt="Aerial view of a utility-scale solar plant, tracker rows running as parallel lines across the site"
+            width={1920}
+            height={1080}
+            className="max-h-[55vh]"
+            overlay={
+              <div className="absolute inset-0 flex items-end p-8 md:p-12">
+                <p className="prose-display max-w-[22ch] text-[1.35rem] md:text-[1.9rem]">
+                  Engineered for utility-scale plants, row after row.
+                </p>
+              </div>
+            }
+          />
         </Reveal>
       </section>
 

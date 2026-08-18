@@ -83,7 +83,7 @@
   --cyan: #3fd4ff;
   --bg: #04060c;
   --bg-elev: #070d18;
-  --text: #e9eefb;
+  --text: #ffffff;
   --text-2: #a6adbb;
   --text-3: #7d8aa8;
   --line: rgba(255, 255, 255, 0.09);
@@ -135,8 +135,8 @@
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.65;
+    font-size: clamp(1rem, 1.1vw, 1.0625rem);
+    line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
@@ -146,27 +146,26 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text);
     text-wrap: balance;
-  }
-
-  h1 {
-    font-size: clamp(2.75rem, 7vw, 5.5rem);
-    line-height: 0.98;
     letter-spacing: -0.03em;
   }
 
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: 900;
+    line-height: 0.95;
+  }
+
   h2 {
-    font-size: clamp(1.9rem, 4.2vw, 3.25rem);
-    line-height: 1.06;
-    letter-spacing: -0.022em;
+    font-size: var(--text-h2);
+    line-height: 1.05;
   }
 
   h3 {
-    font-size: clamp(1.2rem, 1.9vw, 1.5rem);
-    line-height: 1.22;
-    letter-spacing: -0.012em;
+    font-size: var(--text-h3);
+    line-height: 1.2;
   }
 
   h4 {
@@ -178,7 +177,7 @@
 
   p {
     color: var(--text-2);
-    line-height: 1.7;
+    line-height: 1.6;
     text-wrap: pretty;
     max-width: 62ch;
   }

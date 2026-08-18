@@ -221,6 +221,16 @@
   border: 1px solid var(--line);
 }
 
+/* Consistent vertical rhythm for every content section. */
+@utility section-g {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
+
+/* Photography grading — identical across every image so they read as one brand. */
+@utility plate-media {
+  filter: saturate(0.65) contrast(1.12) brightness(0.82);
+}
+
 @utility text-gradient-cyan {
   background: linear-gradient(100deg, #ffffff 10%, var(--cyan) 92%);
   background-clip: text;

@@ -152,7 +152,7 @@ export function HeroScene() {
         </g>
       </svg>
 
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-start justify-start gap-2 p-4 sm:p-6">
+      <div className="pointer-events-none absolute inset-0 flex flex-col items-start justify-end gap-2 p-4 sm:p-6">
         <Chip label="Sun Position" value={`${sunAz}°`} />
         <Chip label="Tracking Angle" value={`${tilt > 0 ? "+" : ""}${tilt}°`} />
         <Chip label="Energy Output" value={`+${gain}%`} />

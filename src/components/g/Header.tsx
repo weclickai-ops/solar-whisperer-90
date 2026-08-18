@@ -51,8 +51,9 @@ export function Header() {
             <Link
               key={item.to}
               to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
               className="cursor-pointer text-sm text-[var(--text-2)] transition-colors duration-200 hover:text-text"
-              activeProps={{ className: "text-text" }}
+              activeProps={{ className: "text-white font-medium" }}
             >
               {item.label}
             </Link>
@@ -86,6 +87,8 @@ export function Header() {
               <Link
                 key={item.to}
                 to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              activeProps={{ className: "text-white" }}
                 className="flex min-h-14 cursor-pointer items-center border-b border-[var(--line)] font-display text-2xl text-text"
               >
                 {item.label}

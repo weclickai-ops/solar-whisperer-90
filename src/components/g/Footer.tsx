@@ -25,7 +25,9 @@ export function Footer() {
     <footer className="relative border-t border-[var(--line)] bg-[var(--bg-elev)]">
       <div className="container-g grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-4">
-          <Logo />
+          <Link to="/" aria-label="Glarenergy home" className="w-fit cursor-pointer">
+            <Logo />
+          </Link>
           <p className="font-display text-lg text-text">{identity.tagline}.</p>
           <p className="max-w-[36ch] text-sm text-[var(--text-3)]">
             Precision single-axis solar tracking systems engineered for higher yield and

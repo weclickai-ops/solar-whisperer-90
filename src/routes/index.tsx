@@ -45,7 +45,36 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const HERO_LINES = ["ENERGY", "MADE", "EFFICIENT."];
+const HERO_LINES = ["Solar tracking,", "engineered for", "maximum yield."];
+
+const statTiles = [
+  { value: figures.yield.value, label: "More energy yield vs fixed-tilt" },
+  { value: figures.goal.value, label: "Deployment goal by 2030" },
+  { value: figures.accuracy.value, label: "Tracking accuracy" },
+];
+
+const pageCards = [
+  {
+    to: "/technology",
+    title: "Technology",
+    description: "Astronomical + intelligent algorithms, backtracking and stow logic.",
+  },
+  {
+    to: "/product",
+    title: "Product",
+    description: "The 2P-HSAT single-axis tracker, end to end.",
+  },
+  {
+    to: "/specs",
+    title: "Engineering",
+    description: "Mechanical, electrical, tracking and communication specifications.",
+  },
+  {
+    to: "/about",
+    title: "About",
+    description: "Why precision engineering sits at the centre of Glarenergy.",
+  },
+];
 
 function Home() {
   return (
@@ -55,7 +84,7 @@ function Home() {
         <div className="flex flex-col gap-8">
           <Eyebrow>Precision Solar Tracking Technology</Eyebrow>
 
-          <h1 className="uppercase">
+          <h1>
             {HERO_LINES.map((line, i) => (
               <span key={line} className="block overflow-hidden">
                 <span
@@ -72,15 +101,18 @@ function Home() {
             ))}
           </h1>
 
-          <p className="lede">{identity.heroLede}</p>
+          <p className="lede">
+            Glarenergy builds precision single-axis trackers that squeeze every usable hour
+            out of the sun.
+          </p>
 
           <div className="flex flex-wrap gap-3">
-            <GLinkButton to="/technology">
-              Explore the Technology
+            <GLinkButton to="/contact">
+              Talk to an Engineer
               <ArrowRight size={15} aria-hidden="true" />
             </GLinkButton>
-            <GLinkButton to="/contact" variant="ghost">
-              Talk to an Engineer
+            <GLinkButton to="/technology" variant="ghost">
+              Explore the Technology
             </GLinkButton>
           </div>
 

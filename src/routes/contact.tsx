@@ -165,6 +165,23 @@ function Contact() {
           <ContactCard href={contact.websiteHref} label="Website" value={contact.website} Icon={Globe} />
         </Reveal>
       </section>
+
+      <section className="container-g pb-20 md:pb-28">
+        <SectionHead eyebrow="What happens next" title="Three steps, no sales funnel." />
+        <ol className="mt-10 grid gap-4 md:grid-cols-3">
+          {nextSteps.map((s, i) => (
+            <Reveal as="li" key={s.number} delay={i * 60}>
+              <div className="h-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6">
+                <p className="font-mono text-xs text-cyan">{s.number}</p>
+                <h3 className="mt-4 font-display text-lg">{s.title}</h3>
+                <p className="mt-2 text-sm">{s.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+      </section>
+
+      <CtaBand />
     </>
   );
 }

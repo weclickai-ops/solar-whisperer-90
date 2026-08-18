@@ -291,3 +291,35 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Clean datasheet output when a spec page is printed. */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-elev: #ffffff;
+    --surface: #ffffff;
+    --text: #000000;
+    --text-2: #222222;
+    --text-3: #555555;
+    --line: rgba(0, 0, 0, 0.25);
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  header,
+  footer,
+  nav,
+  img,
+  svg,
+  figure {
+    display: none !important;
+  }
+
+  section {
+    break-inside: avoid;
+    padding-block: 0.75rem !important;
+  }
+}

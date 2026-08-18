@@ -87,8 +87,9 @@ function About() {
                 {panel.body}
               </p>
             </article>
-          ))}
-        </section>
+          </Reveal>
+        ))}
+      </section>
 
       {/* 1 GW goal */}
       <section className="container-g pb-20 md:pb-28" aria-labelledby="goal-title">

@@ -9,6 +9,23 @@ import { CtaBand } from "@/components/g/CtaBand";
 import { GCard } from "@/components/g/GCard";
 import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
+import { Plate } from "@/components/g/Plate";
+import { features } from "@/data/content";
+
+const moduleConfig = [
+  { label: "Modules per tracker", value: "Up to 100 modules" },
+  { label: "Module support", value: "Commercial & bifacial" },
+  { label: "Arrangement", value: "Two in portrait (2P) or one in portrait (1P)" },
+  { label: "Tracker length", value: "50 m – 100 m" },
+  { label: "Ground coverage ratio", value: ">15%" },
+];
+
+const foundations = [
+  { label: "Foundation methods", value: "Ramming / pre-drill / PHC" },
+  { label: "Anti-corrosion", value: "Galvanized / Mg-Zn coated" },
+  { label: "Piles per MW", value: "~450" },
+  { label: "Operating temperature", value: "-15°C to 60°C" },
+];
 
 export const Route = createFileRoute("/product")({
   head: () => ({
@@ -57,6 +74,79 @@ function ProductPage() {
       </section>
 
       <ConfigComparator />
+
+      {/* Module configuration */}
+      <section className="container-g pb-20 md:pb-28">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div>
+            <SectionHead
+              eyebrow="Module configuration"
+              title="Up to 100 modules on one axis."
+              lede="Commercial and bifacial modules are both supported, in single- or dual-portrait arrangement along a 50 m to 100 m tracker."
+            />
+          </div>
+          <Reveal delay={60}>
+            <dl className="divide-y divide-[var(--line)] rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)]">
+              {moduleConfig.map((r) => (
+                <div key={r.label} className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 px-6 py-4">
+                  <dt className="text-sm text-[var(--text-3)]">{r.label}</dt>
+                  <dd className="text-right font-mono text-sm text-text">{r.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Foundations & corrosion */}
+      <section className="container-g pb-20 md:pb-28">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+          <div>
+            <SectionHead
+              eyebrow="Foundations & corrosion"
+              title="Founded for the ground it stands on."
+              lede="Ramming, pre-drill or PHC piles at roughly 450 piles per MW, with galvanized or Mg-Zn coated steel for corrosion resistance."
+            />
+          </div>
+          <Reveal delay={60}>
+            <dl className="divide-y divide-[var(--line)] rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)]">
+              {foundations.map((r) => (
+                <div key={r.label} className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 px-6 py-4">
+                  <dt className="text-sm text-[var(--text-3)]">{r.label}</dt>
+                  <dd className="text-right font-mono text-sm text-text">{r.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Full feature set */}
+      <section className="container-g pb-20 md:pb-28">
+        <SectionHead eyebrow="Capabilities" title="The full feature set." />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((f, i) => (
+            <Reveal key={f.title} delay={i * 40}>
+              <div className="h-full rounded-2xl border border-[var(--line)] p-5 transition-colors duration-200 hover:border-[var(--line-blue)]">
+                <h3 className="font-display text-base">{f.title}</h3>
+                <p className="mt-2 text-sm">{f.description}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Plate: tracker-row.jpg — single row close up, torque tube and drive visible */}
+      <section className="container-g pb-20 md:pb-28">
+        <Reveal>
+          <Plate
+            src="/images/tracker-row.jpg"
+            alt="Close-up of a single tracker row showing the torque tube and drive assembly beneath the modules"
+            width={1920}
+            height={1080}
+          />
+        </Reveal>
+      </section>
 
       <section className="container-g pb-20 md:pb-28">
         <SectionHead eyebrow="Summary" title="Design specification." className="mb-10" />

@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "@/components/g/Reveal";
 
 const ROWS = [
-  { y: 372, scale: 1, x: 260 },
-  { y: 330, scale: 0.78, x: 320 },
-  { y: 300, scale: 0.6, x: 360 },
-  { y: 278, scale: 0.46, x: 390 },
-  { y: 262, scale: 0.35, x: 412 },
+  { y: 470, scale: 1.0, x: 380 },
+  { y: 424, scale: 0.8, x: 392 },
+  { y: 388, scale: 0.63, x: 400 },
+  { y: 358, scale: 0.5, x: 406 },
+  { y: 334, scale: 0.39, x: 412 },
+  { y: 314, scale: 0.3, x: 416 },
+  { y: 298, scale: 0.23, x: 420 },
 ];
 
 /** Cinematic utility-scale tracker array, animated on a ~12s sun loop. */
@@ -93,18 +95,18 @@ export function HeroScene() {
         {ROWS.slice()
           .reverse()
           .map((row, idx) => {
-            const width = 300 * row.scale;
+            const width = 720 * row.scale;
             const opacity = 0.35 + row.scale * 0.65;
             return (
               <g key={idx} opacity={opacity} transform={`translate(${row.x} ${row.y})`}>
                 {/* piles */}
-                {[-1, 0, 1].map((p) => (
+                {[-1, -0.5, 0, 0.5, 1].map((p) => (
                   <line
                     key={p}
                     x1={p * width * 0.36}
                     y1={0}
                     x2={p * width * 0.36}
-                    y2={26 * row.scale + 10}
+                    y2={30 * row.scale + 8}
                     stroke="rgba(174,185,214,0.45)"
                     strokeWidth={1.2}
                   />
@@ -121,9 +123,9 @@ export function HeroScene() {
                 <g transform={`rotate(${tilt})`}>
                   <rect
                     x={-width / 2}
-                    y={-7 * row.scale - 3}
+                    y={-11 * row.scale - 4}
                     width={width}
-                    height={7 * row.scale + 3}
+                    height={11 * row.scale + 3}
                     fill="url(#panelG)"
                     stroke="rgba(63,212,255,0.35)"
                     strokeWidth="0.8"
@@ -132,7 +134,7 @@ export function HeroScene() {
                     x={-width / 2}
                     y={2}
                     width={width}
-                    height={7 * row.scale + 3}
+                    height={11 * row.scale + 3}
                     fill="url(#panelG)"
                     stroke="rgba(0,127,255,0.35)"
                     strokeWidth="0.8"

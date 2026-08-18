@@ -266,6 +266,7 @@ export const cta = {
 } as const;
 
 export const nav = [
+  { label: "Home", to: "/" },
   { label: "Technology", to: "/technology" },
   { label: "Product", to: "/product" },
   { label: "Engineering", to: "/specs" },

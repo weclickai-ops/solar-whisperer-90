@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import {
   engineeringItems,
+  figures,
   heroSpecRail,
   identity,
   performanceStrip,
@@ -17,6 +18,7 @@ import { CountUp } from "@/components/g/CountUp";
 import { Marquee } from "@/components/g/Marquee";
 import { CtaBand } from "@/components/g/CtaBand";
 import { Plate } from "@/components/g/Plate";
+import { ParallaxImage } from "@/components/g/ParallaxImage";
 import { HeroScene } from "@/components/svg/HeroScene";
 import { SunTrackDiagram } from "@/components/svg/SunTrackDiagram";
 import { TerrainProfile } from "@/components/svg/TerrainProfile";
@@ -45,7 +47,36 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const HERO_LINES = ["ENERGY", "MADE", "EFFICIENT."];
+const HERO_LINES = ["Solar tracking,", "engineered for", "maximum yield."];
+
+const statTiles = [
+  { value: figures.yield.value, label: "More energy yield vs fixed-tilt" },
+  { value: figures.goal.value, label: "Deployment goal by 2030" },
+  { value: figures.accuracy.value, label: "Tracking accuracy" },
+];
+
+const pageCards = [
+  {
+    to: "/technology",
+    title: "Technology",
+    description: "Astronomical + intelligent algorithms, backtracking and stow logic.",
+  },
+  {
+    to: "/product",
+    title: "Product",
+    description: "The 2P-HSAT single-axis tracker, end to end.",
+  },
+  {
+    to: "/specs",
+    title: "Engineering",
+    description: "Mechanical, electrical, tracking and communication specifications.",
+  },
+  {
+    to: "/about",
+    title: "About",
+    description: "Why precision engineering sits at the centre of Glarenergy.",
+  },
+];
 
 function Home() {
   return (
@@ -55,7 +86,7 @@ function Home() {
         <div className="flex flex-col gap-8">
           <Eyebrow>Precision Solar Tracking Technology</Eyebrow>
 
-          <h1 className="uppercase">
+          <h1>
             {HERO_LINES.map((line, i) => (
               <span key={line} className="block overflow-hidden">
                 <span
@@ -72,15 +103,18 @@ function Home() {
             ))}
           </h1>
 
-          <p className="lede">{identity.heroLede}</p>
+          <p className="lede">
+            Glarenergy builds precision single-axis trackers that squeeze every usable hour
+            out of the sun.
+          </p>
 
           <div className="flex flex-wrap gap-3">
-            <GLinkButton to="/technology">
-              Explore the Technology
+            <GLinkButton to="/contact">
+              Talk to an Engineer
               <ArrowRight size={15} aria-hidden="true" />
             </GLinkButton>
-            <GLinkButton to="/contact" variant="ghost">
-              Talk to an Engineer
+            <GLinkButton to="/technology" variant="ghost">
+              Explore the Technology
             </GLinkButton>
           </div>
 
@@ -140,6 +174,30 @@ function Home() {
           </div>
           <HeroScene />
         </div>
+      </section>
+
+      {/* 1b — CINEMATIC BAND */}
+      <ParallaxImage
+        src="/images/plant-aerial.jpg"
+        alt="Utility-scale solar plant with rows of single-axis trackers at low sun"
+        className="h-[52vh] min-h-[320px] md:h-[70vh]"
+      />
+
+      {/* 1c — STAT TILES */}
+      <section className="container-g py-16 md:py-20" aria-label="Headline figures">
+        <dl className="grid gap-4 sm:grid-cols-3">
+          {statTiles.map((s, i) => (
+            <Reveal key={s.label} delay={i * 80}>
+              <div className="flex h-full flex-col gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] p-7">
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="font-display text-4xl leading-none text-text md:text-5xl">
+                  {s.value}
+                </dd>
+                <p className="label-sm text-[var(--text-3)]">{s.label}</p>
+              </div>
+            </Reveal>
+          ))}
+        </dl>
       </section>
 
       {/* 2 — MARQUEE */}
@@ -320,6 +378,34 @@ function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 11b — EXPLORE THE SITE */}
+      <section className="container-g py-20 md:py-28" aria-label="Explore Glarenergy">
+        <SectionHead
+          eyebrow="Explore"
+          title="Where to go next"
+          lede="Four routes through the engineering behind Glarenergy trackers."
+        />
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {pageCards.map((c, i) => (
+            <Reveal key={c.to} delay={i * 70}>
+              <Link
+                to={c.to}
+                className="group flex h-full cursor-pointer flex-col justify-between gap-8 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] p-7 transition-colors duration-200 hover:border-[var(--line-blue)]"
+              >
+                <div className="flex flex-col gap-3">
+                  <h3>{c.title}</h3>
+                  <p className="text-sm">{c.description}</p>
+                </div>
+                <span className="label-sm inline-flex items-center gap-2 text-[var(--text-3)] transition-colors duration-200 group-hover:text-[var(--cyan)]">
+                  View
+                  <ArrowRight size={14} aria-hidden="true" />
+                </span>
+              </Link>
+            </Reveal>
+          ))}
         </div>
       </section>
 

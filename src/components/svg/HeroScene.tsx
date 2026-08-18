@@ -70,6 +70,10 @@ export function HeroScene() {
           </linearGradient>
         </defs>
 
+        <clipPath id="frameClip">
+          <rect x="0" y="0" width="800" height="520" rx="26" />
+        </clipPath>
+        <g clipPath="url(#frameClip)">
         <rect width="800" height="520" fill="url(#skyG)" />
         <circle cx={sunX} cy={sunY} r="180" fill="url(#sunG)" />
         <circle cx={sunX} cy={sunY} r="13" fill="#EAF8FF" opacity="0.9" />
@@ -95,7 +99,7 @@ export function HeroScene() {
         {ROWS.slice()
           .reverse()
           .map((row, idx) => {
-            const width = 720 * row.scale;
+            const width = 560 * row.scale;
             const opacity = 0.35 + row.scale * 0.65;
             return (
               <g key={idx} opacity={opacity} transform={`translate(${row.x} ${row.y})`}>
@@ -120,7 +124,9 @@ export function HeroScene() {
                   stroke="rgba(174,185,214,0.5)"
                   strokeWidth={1.2}
                 />
-                <g transform={`rotate(${tilt})`}>
+                <g
+                  transform={`rotate(${tilt * 0.22}) scaleY(${Math.max(0.28, Math.cos((tilt * Math.PI) / 180))})`}
+                >
                   <rect
                     x={-width / 2}
                     y={-11 * row.scale - 4}
@@ -143,6 +149,7 @@ export function HeroScene() {
               </g>
             );
           })}
+        </g>
       </svg>
 
       <div className="pointer-events-none absolute inset-0 flex flex-col items-start justify-start gap-2 p-4 sm:p-6">

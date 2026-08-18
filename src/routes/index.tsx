@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import {
   engineeringItems,
+  figures,
   heroSpecRail,
   identity,
   performanceStrip,

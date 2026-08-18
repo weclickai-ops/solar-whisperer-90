@@ -163,10 +163,10 @@ function Field({
   label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  error?: string;
-  required?: boolean;
-  type?: string;
-  textarea?: boolean;
+  error?: string | undefined;
+  required?: boolean | undefined;
+  type?: string | undefined;
+  textarea?: boolean | undefined;
 }) {
   const cls = cn(
     "w-full rounded-xl border bg-[var(--surface)] px-4 py-3 text-sm text-text placeholder:text-[var(--text-3)] transition-colors duration-200",

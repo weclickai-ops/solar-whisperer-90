@@ -8,8 +8,8 @@ import { Reveal } from "@/components/g/Reveal";
 import { cn } from "@/lib/utils";
 
 export function ProductShowcase({ showLink = true }: { showLink?: boolean }) {
-  const [active, setActive] = useState(productHotspots[0].id);
-  const current = productHotspots.find((h) => h.id === active)!;
+  const [active, setActive] = useState<string>(productHotspots[0]?.id ?? "");
+  const current = productHotspots.find((h) => h.id === active) ?? productHotspots[0];
 
   return (
     <section className="container-g py-20 md:py-28">
@@ -61,7 +61,9 @@ export function ProductShowcase({ showLink = true }: { showLink?: boolean }) {
             ))}
           </ul>
 
-          <p className="sr-only">Selected component: {current.title}. {current.description}</p>
+          <p className="sr-only">
+            Selected component: {current?.title}. {current?.description}
+          </p>
 
           {showLink ? (
             <Link

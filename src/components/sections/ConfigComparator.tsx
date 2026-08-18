@@ -6,8 +6,8 @@ import { Reveal } from "@/components/g/Reveal";
 import { cn } from "@/lib/utils";
 
 export function ConfigComparator() {
-  const [tab, setTab] = useState(configurations[0].id);
-  const cfg = configurations.find((c) => c.id === tab)!;
+  const [tab, setTab] = useState<string>(configurations[0].id);
+  const cfg = configurations.find((c) => c.id === tab) ?? configurations[0];
 
   return (
     <section className="container-g py-20 md:py-28">

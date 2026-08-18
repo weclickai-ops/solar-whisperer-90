@@ -19,7 +19,7 @@ export function SunTrackDiagram() {
     return () => clearInterval(id);
   }, [interacted, reduced]);
 
-  const s = STATES[i];
+  const s = STATES[i] ?? STATES[1]!;
   const fixedCapture = i === 1 ? 0.62 : 0.3;
 
   return (

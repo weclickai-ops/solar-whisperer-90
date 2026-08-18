@@ -5,6 +5,8 @@ import { contact, cta } from "@/data/content";
 import { PageHeader } from "@/components/g/PageHeader";
 import { Reveal } from "@/components/g/Reveal";
 import { GButton } from "@/components/g/GButton";
+import { CtaBand } from "@/components/g/CtaBand";
+import { SectionHead } from "@/components/g/SectionHead";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/contact")({
@@ -45,6 +47,24 @@ const empty: Fields = {
   capacity: "",
   message: "",
 };
+
+const nextSteps = [
+  {
+    number: "01",
+    title: "We read the requirement",
+    body: "Site location, capacity and terrain tell us which configuration applies — 2P-HSAT or 1P.",
+  },
+  {
+    number: "02",
+    title: "An engineer replies",
+    body: "You get a direct answer on tracking range, foundations and layout, not a sales sequence.",
+  },
+  {
+    number: "03",
+    title: "We size the layout",
+    body: "Row count, pile count and ground coverage are worked through against your plot.",
+  },
+];
 
 function Contact() {
   const [values, setValues] = useState<Fields>(empty);
@@ -145,6 +165,23 @@ function Contact() {
           <ContactCard href={contact.websiteHref} label="Website" value={contact.website} Icon={Globe} />
         </Reveal>
       </section>
+
+      <section className="container-g pb-20 md:pb-28">
+        <SectionHead eyebrow="What happens next" title="Three steps, no sales funnel." />
+        <ol className="mt-10 grid gap-4 md:grid-cols-3">
+          {nextSteps.map((s, i) => (
+            <Reveal as="li" key={s.number} delay={i * 60}>
+              <div className="h-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6">
+                <p className="font-mono text-xs text-cyan">{s.number}</p>
+                <h3 className="mt-4 font-display text-lg">{s.title}</h3>
+                <p className="mt-2 text-sm">{s.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+      </section>
+
+      <CtaBand />
     </>
   );
 }

@@ -139,29 +139,55 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 600;
-    line-height: 1.02;
-    letter-spacing: -0.025em;
     color: var(--text);
+    text-wrap: balance;
   }
 
   h1 {
-    font-size: clamp(2.75rem, 7.5vw, 6rem);
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
   }
 
   h2 {
-    font-size: clamp(2rem, 4.6vw, 3.5rem);
+    font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+    line-height: 1.06;
+    letter-spacing: -0.022em;
   }
 
   h3 {
-    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+    line-height: 1.22;
+    letter-spacing: -0.012em;
   }
 
   h4 {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
   }
 
   p {
     color: var(--text-2);
+    line-height: 1.7;
+    text-wrap: pretty;
+    max-width: 62ch;
+  }
+
+  /* Sentence-length copy that still needs the display face. */
+  .prose-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+    color: var(--text);
+  }
+
+  .font-display,
+  .font-mono {
+    font-variant-numeric: tabular-nums;
   }
 
   :focus-visible {
@@ -193,6 +219,16 @@
 
 @utility hairline {
   border: 1px solid var(--line);
+}
+
+/* Consistent vertical rhythm for every content section. */
+@utility section-g {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
+
+/* Photography grading — identical across every image so they read as one brand. */
+@utility plate-media {
+  filter: saturate(0.65) contrast(1.12) brightness(0.82);
 }
 
 @utility text-gradient-cyan {
@@ -253,5 +289,37 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* Clean datasheet output when a spec page is printed. */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-elev: #ffffff;
+    --surface: #ffffff;
+    --text: #000000;
+    --text-2: #222222;
+    --text-3: #555555;
+    --line: rgba(0, 0, 0, 0.25);
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  header,
+  footer,
+  nav,
+  img,
+  svg,
+  figure {
+    display: none !important;
+  }
+
+  section {
+    break-inside: avoid;
+    padding-block: 0.75rem !important;
   }
 }

@@ -16,6 +16,7 @@ import { GCard } from "@/components/g/GCard";
 import { CountUp } from "@/components/g/CountUp";
 import { Marquee } from "@/components/g/Marquee";
 import { CtaBand } from "@/components/g/CtaBand";
+import { Plate } from "@/components/g/Plate";
 import { HeroScene } from "@/components/svg/HeroScene";
 import { SunTrackDiagram } from "@/components/svg/SunTrackDiagram";
 import { TerrainProfile } from "@/components/svg/TerrainProfile";
@@ -103,7 +104,40 @@ function Home() {
           </dl>
         </div>
 
-        <div>
+        {/* Plate: hero-array.jpg — rows of trackers at low sun, wide landscape */}
+        <div className="relative">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 -inset-y-8 -z-10 overflow-hidden rounded-[2rem]"
+          >
+            <img
+              src="/images/hero-array.jpg"
+              alt=""
+              width={1920}
+              height={1280}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="plate-media h-full w-full object-cover opacity-55"
+              style={{
+                maskImage:
+                  "radial-gradient(120% 100% at 70% 50%, #000 30%, transparent 78%)",
+                WebkitMaskImage:
+                  "radial-gradient(120% 100% at 70% 50%, #000 30%, transparent 78%)",
+              }}
+            />
+            <div
+              className="absolute inset-0 mix-blend-overlay"
+              style={{ background: "linear-gradient(rgba(0,127,255,0.14), rgba(4,6,12,0.55))" }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to right, rgba(4,6,12,0.96) 0%, rgba(4,6,12,0.7) 45%, rgba(4,6,12,0.35) 100%)",
+              }}
+            />
+          </div>
           <HeroScene />
         </div>
       </section>
@@ -135,6 +169,27 @@ function Home() {
         </Reveal>
       </section>
 
+      {/* 3b — PLANT BAND */}
+      {/* Plate: plant-aerial.jpg — aerial of a solar plant, tracker rows as lines */}
+      <section className="container-g pb-20 md:pb-24" aria-label="Utility-scale deployment">
+        <Reveal>
+          <Plate
+            src="/images/plant-aerial.jpg"
+            alt="Aerial view of a utility-scale solar plant, tracker rows running as parallel lines across the site"
+            width={1920}
+            height={1080}
+            className="max-h-[55vh]"
+            overlay={
+              <div className="absolute inset-0 flex items-end p-8 md:p-12">
+                <p className="prose-display max-w-[22ch] text-[1.35rem] md:text-[1.9rem]">
+                  Engineered for utility-scale plants, row after row.
+                </p>
+              </div>
+            }
+          />
+        </Reveal>
+      </section>
+
       {/* 4 — WHY TRACK THE SUN */}
       <section className="container-g py-20 md:py-28">
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
@@ -162,6 +217,22 @@ function Home() {
           title="Engineered for real-world solar farms."
         />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Plate: actuator-detail.jpg — macro of the drive / actuator assembly */}
+          <Reveal className="sm:col-span-2 sm:row-span-2">
+            <Plate
+              src="/images/actuator-detail.jpg"
+              alt="Close-up of a solar tracker single-point linear actuator and drive assembly"
+              width={1200}
+              height={900}
+              fade="none"
+              className="h-full"
+              overlay={
+                <figcaption className="absolute inset-x-0 bottom-0 p-6 font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-2)]">
+                  Single-point linear actuator · 24V DC
+                </figcaption>
+              }
+            />
+          </Reveal>
           {engineeringItems.map((item, i) => (
             <Reveal key={item.title} delay={i * 50}>
               <GCard className="h-full">
@@ -181,8 +252,21 @@ function Home() {
           title="Built for more than perfect terrain."
           lede="Trackers install along undulating ground with 10% north–south and 10% east–west slope tolerance, rotating ±45° to ±60° and returning to 0° stow in extreme wind."
         />
-        <div className="mt-12">
+        {/* Plate: terrain-site.jpg — trackers on sloped, undulating ground (behind the diagram) */}
+        <div className="relative mt-12 overflow-hidden rounded-[1.5rem]">
+          <img
+            src="/images/terrain-site.jpg"
+            alt=""
+            width={1920}
+            height={1080}
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+            className="plate-media pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+          />
+          <div className="relative">
           <TerrainProfile />
+          </div>
         </div>
       </section>
 

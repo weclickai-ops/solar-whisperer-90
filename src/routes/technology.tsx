@@ -120,6 +120,70 @@ function Technology() {
           <Eyebrow>Communications</Eyebrow>
           <h2>Three ways to reach the tracker.</h2>
         </Reveal>
+        <Reveal delay={60} className="mt-10">
+          <svg
+            viewBox="0 0 800 220"
+            role="img"
+            aria-label="Network topology: a plant controller linked to tracker controllers over Zigbee mesh, Ethernet and RS485"
+            className="w-full rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)]"
+          >
+            <title>Tracker communication topology</title>
+            {[160, 300, 440, 580, 720].map((x) => (
+              <g key={x}>
+                <line
+                  x1="80"
+                  y1="110"
+                  x2={x}
+                  y2="170"
+                  stroke="rgba(0,127,255,0.45)"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+                <rect
+                  x={x - 26}
+                  y="158"
+                  width="52"
+                  height="26"
+                  rx="6"
+                  fill="rgba(0,127,255,0.10)"
+                  stroke="rgba(0,127,255,0.45)"
+                />
+                <text
+                  x={x}
+                  y="175"
+                  textAnchor="middle"
+                  fontSize="10"
+                  fill="#aeb9d6"
+                  fontFamily="var(--font-mono)"
+                >
+                  TRK
+                </text>
+              </g>
+            ))}
+            <rect
+              x="24"
+              y="92"
+              width="112"
+              height="36"
+              rx="8"
+              fill="rgba(63,212,255,0.10)"
+              stroke="var(--cyan)"
+            />
+            <text
+              x="80"
+              y="115"
+              textAnchor="middle"
+              fontSize="11"
+              fill="#e9eefb"
+              fontFamily="var(--font-mono)"
+            >
+              PLANT
+            </text>
+            <text x="24" y="52" fontSize="10" fill="#7d8aa8" fontFamily="var(--font-mono)">
+              ZIGBEE MESH · ETHERNET · RS485
+            </text>
+          </svg>
+        </Reveal>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {comms.map((c, i) => (
             <Reveal key={c.title} delay={i * 60}>

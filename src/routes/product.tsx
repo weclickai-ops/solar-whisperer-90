@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { designSpecs, product } from "@/data/content";
+import { designSpecs, features, product } from "@/data/content";
 import { PageHeader } from "@/components/g/PageHeader";
 import { ProductShowcase } from "@/components/sections/ProductShowcase";
 import { ConfigComparator } from "@/components/sections/ConfigComparator";
@@ -10,7 +10,6 @@ import { GCard } from "@/components/g/GCard";
 import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
 import { Plate } from "@/components/g/Plate";
-import { features } from "@/data/content";
 
 const moduleConfig = [
   { label: "Modules per tracker", value: "Up to 100 modules" },

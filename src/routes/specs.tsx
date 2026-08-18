@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import type { SpecRow } from "@/data/content";
 import { PageHeader } from "@/components/g/PageHeader";
 import { SpecSheet } from "@/components/sections/SpecSheet";
 import { CtaBand } from "@/components/g/CtaBand";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/specs")({
   head: () => ({
@@ -63,6 +65,25 @@ const sheets = [
 ];
 
 function Specs() {
+  const [active, setActive] = useState(sheets[0]!.id);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible?.target.id) setActive(visible.target.id);
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: 0 },
+    );
+    for (const s of sheets) {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <PageHeader
@@ -79,7 +100,13 @@ function Specs() {
               <li key={s.id}>
                 <a
                   href={`#${s.id}`}
-                  className="-ml-px flex min-h-11 cursor-pointer items-center border-l border-transparent pl-4 font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-3)] transition-colors duration-200 hover:border-blue hover:text-text"
+                  aria-current={active === s.id ? "true" : undefined}
+                  className={cn(
+                    "-ml-px flex min-h-11 cursor-pointer items-center border-l pl-4 font-mono text-xs uppercase tracking-[0.18em] transition-colors duration-200 hover:border-blue hover:text-text",
+                    active === s.id
+                      ? "border-cyan text-text"
+                      : "border-transparent text-[var(--text-3)]",
+                  )}
                 >
                   {s.title}
                 </a>

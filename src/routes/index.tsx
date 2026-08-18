@@ -217,6 +217,22 @@ function Home() {
           title="Engineered for real-world solar farms."
         />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Plate: actuator-detail.jpg — macro of the drive / actuator assembly */}
+          <Reveal className="sm:col-span-2 sm:row-span-2">
+            <Plate
+              src="/images/actuator-detail.jpg"
+              alt="Close-up of a solar tracker single-point linear actuator and drive assembly"
+              width={1200}
+              height={900}
+              fade="none"
+              className="h-full"
+              overlay={
+                <figcaption className="absolute inset-x-0 bottom-0 p-6 font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-2)]">
+                  Single-point linear actuator · 24V DC
+                </figcaption>
+              }
+            />
+          </Reveal>
           {engineeringItems.map((item, i) => (
             <Reveal key={item.title} delay={i * 50}>
               <GCard className="h-full">
@@ -236,8 +252,21 @@ function Home() {
           title="Built for more than perfect terrain."
           lede="Trackers install along undulating ground with 10% north–south and 10% east–west slope tolerance, rotating ±45° to ±60° and returning to 0° stow in extreme wind."
         />
-        <div className="mt-12">
+        {/* Plate: terrain-site.jpg — trackers on sloped, undulating ground (behind the diagram) */}
+        <div className="relative mt-12 overflow-hidden rounded-[1.5rem]">
+          <img
+            src="/images/terrain-site.jpg"
+            alt=""
+            width={1920}
+            height={1080}
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+            className="plate-media pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+          />
+          <div className="relative">
           <TerrainProfile />
+          </div>
         </div>
       </section>
 

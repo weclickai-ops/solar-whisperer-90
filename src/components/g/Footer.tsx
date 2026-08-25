@@ -20,6 +20,14 @@ const columns = [
   },
 ];
 
+/*
+ * Footer links sit at 17px tall, which is an awkward tap target on a phone.
+ * min-h-11 (44px) gives them a comfortable hit area on small screens and is
+ * dropped from md up, so the desktop footer keeps its original tight rhythm.
+ */
+const footerLink =
+  "inline-flex min-h-11 items-center text-sm text-[var(--text-2)] transition-colors duration-200 hover:text-text cursor-pointer md:min-h-0";
+
 export function Footer() {
   return (
     <footer className="relative border-t border-[var(--line)] bg-[var(--bg-elev)]">
@@ -40,13 +48,10 @@ export function Footer() {
             <h2 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-3)]">
               {col.title}
             </h2>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-1 md:gap-3">
               {col.links.map((l) => (
                 <li key={l.to}>
-                  <Link
-                    to={l.to}
-                    className="cursor-pointer text-sm text-[var(--text-2)] transition-colors duration-200 hover:text-text"
-                  >
+                  <Link to={l.to} className={footerLink}>
                     {l.label}
                   </Link>
                 </li>
@@ -59,29 +64,25 @@ export function Footer() {
           <h2 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-3)]">
             Contact
           </h2>
-          <ul className="flex flex-col gap-3 text-sm">
+          <ul className="flex flex-col gap-1 md:gap-3">
             {contact.phones.map((p, i) => (
               <li key={p}>
-                <a
-                  href={`tel:${contact.phoneHrefs[i]}`}
-                  className="cursor-pointer text-[var(--text-2)] transition-colors duration-200 hover:text-text"
-                >
+                <a href={`tel:${contact.phoneHrefs[i]}`} className={footerLink}>
                   {p}
                 </a>
               </li>
             ))}
             <li>
-              <a
-                href={`mailto:${contact.email}`}
-                className="cursor-pointer text-[var(--text-2)] transition-colors duration-200 hover:text-text"
-              >
+              <a href={`mailto:${contact.email}`} className={footerLink}>
                 {contact.email}
               </a>
             </li>
             <li>
               <a
                 href={contact.websiteHref}
-                className="cursor-pointer text-[var(--text-2)] transition-colors duration-200 hover:text-text"
+                target="_blank"
+                rel="noreferrer"
+                className={footerLink}
               >
                 {contact.website}
               </a>

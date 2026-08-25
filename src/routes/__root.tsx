@@ -112,8 +112,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://api.fontshare.com/v2/css?f[]=satoshi@700,900&display=swap",
       },
       {
+        // Inter (body) and IBM Plex Mono (spec labels, readouts, SVG annotations)
+        // are requested together so the two faces cost a single round trip.
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap",
       },
     ],
   }),

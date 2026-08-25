@@ -37,8 +37,8 @@ export function Header() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 h-20 transition-[background-color,backdrop-filter,border-color] duration-300",
         scrolled
-          ? "border-b border-[var(--line)] bg-[rgba(4,6,12,0.72)] backdrop-blur-[20px]"
-          : "border-b border-transparent bg-linear-to-b from-[rgba(4,6,12,0.75)] to-transparent",
+          ? "border-b border-[var(--line)] bg-[rgba(5,10,22,0.72)] backdrop-blur-[20px]"
+          : "border-b border-transparent bg-linear-to-b from-[rgba(5,10,22,0.75)] to-transparent",
       )}
     >
       <div className="container-g flex h-20 items-center justify-between gap-4">
@@ -81,7 +81,7 @@ export function Header() {
       </div>
 
       {open ? (
-        <div className="fixed inset-x-0 top-20 bottom-0 z-40 overflow-y-auto border-t border-[var(--line)] bg-[rgba(4,6,12,0.97)] backdrop-blur-[20px] lg:hidden">
+        <div className="fixed inset-x-0 top-20 bottom-0 z-40 overflow-y-auto border-t border-[var(--line)] bg-[rgba(5,10,22,0.97)] backdrop-blur-[20px] lg:hidden">
           <nav aria-label="Mobile" className="container-g flex flex-col py-4">
             {nav.map((item) => (
               <Link

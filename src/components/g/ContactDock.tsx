@@ -39,7 +39,7 @@ export function ContactDock() {
               href={href}
               target={label === "WhatsApp" ? "_blank" : undefined}
               rel={label === "WhatsApp" ? "noreferrer" : undefined}
-              className="inline-flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border border-[var(--line-2)] bg-[rgba(4,6,12,0.82)] px-4 text-sm text-text backdrop-blur-md transition-colors duration-200 hover:border-[var(--line-blue)]"
+              className="inline-flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border border-[var(--line-2)] bg-[rgba(5,10,22,0.82)] px-4 text-sm text-text backdrop-blur-md transition-colors duration-200 hover:border-[var(--line-blue)]"
               style={{
                 animation: `g-line-rise 260ms cubic-bezier(.16,1,.3,1) ${i * 45}ms both`,
               }}
@@ -55,7 +55,7 @@ export function ContactDock() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={open ? "Close contact options" : "Open contact options"}
-        className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-[var(--line-blue)] bg-[rgba(4,6,12,0.82)] px-4 text-sm font-medium text-text backdrop-blur-md transition-colors duration-200 hover:bg-[rgba(0,127,255,0.14)]"
+        className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-[var(--line-blue)] bg-[rgba(5,10,22,0.82)] px-4 text-sm font-medium text-text backdrop-blur-md transition-colors duration-200 hover:bg-[rgba(0,127,255,0.14)]"
       >
         Contact
         <Plus

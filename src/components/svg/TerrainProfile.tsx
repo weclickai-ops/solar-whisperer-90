@@ -22,7 +22,7 @@ export function TerrainProfile() {
         <defs>
           <linearGradient id="terrainG" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="rgba(0,127,255,0.14)" />
-            <stop offset="100%" stopColor="rgba(4,6,12,0)" />
+            <stop offset="100%" stopColor="rgba(5,10,22,0)" />
           </linearGradient>
         </defs>
 

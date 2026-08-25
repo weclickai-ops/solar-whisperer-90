@@ -44,7 +44,7 @@ export function ConfigComparator() {
           <ConfigDiagram rowsPerTracker={cfg.id === "2p" ? 2 : 1} />
           <dl className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
             {cfg.rows.map((r) => (
-              <div key={r.label} className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 py-4">
+              <div key={r.label} className="grid grid-cols-1 gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-4 py-4">
                 <dt className="text-sm text-[var(--text-3)]">{r.label}</dt>
                 <dd className="text-right font-mono text-sm text-text">{r.value}</dd>
               </div>

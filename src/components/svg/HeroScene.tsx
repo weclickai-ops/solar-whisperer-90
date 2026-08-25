@@ -163,7 +163,7 @@ export function HeroScene() {
 
 function Chip({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-[var(--line-blue)] bg-[rgba(4,6,12,0.72)] px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--text-2)] backdrop-blur-md">
+    <span className="inline-flex items-center gap-2 rounded-full border border-[var(--line-blue)] bg-[rgba(5,10,22,0.72)] px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--text-2)] backdrop-blur-md">
       {label}
       <span aria-hidden="true" className="text-[var(--text-3)]">
         ·

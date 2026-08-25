@@ -62,14 +62,14 @@ export function Plate({
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 mix-blend-overlay"
         style={{
-          background: "linear-gradient(rgba(0,127,255,0.14), rgba(4,6,12,0.55))",
+          background: "linear-gradient(rgba(0,127,255,0.14), rgba(5,10,22,0.55))",
         }}
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "linear-gradient(to bottom, rgba(4,6,12,0.25), rgba(4,6,12,0.65))",
+          background: "linear-gradient(to bottom, rgba(5,10,22,0.25), rgba(5,10,22,0.65))",
         }}
       />
       {overlay}

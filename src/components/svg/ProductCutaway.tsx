@@ -93,7 +93,7 @@ export function ProductCutaway({
                   "relative flex h-7 w-7 items-center justify-center rounded-full border font-mono text-[0.65rem] transition-colors duration-200",
                   isActive
                     ? "border-cyan bg-blue text-white"
-                    : "border-[var(--line-2)] bg-[rgba(4,6,12,0.85)] text-[var(--text-2)]",
+                    : "border-[var(--line-2)] bg-[rgba(5,10,22,0.85)] text-[var(--text-2)]",
                 )}
               >
                 {h.number}

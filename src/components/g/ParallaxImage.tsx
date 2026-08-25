@@ -65,14 +65,14 @@ export function ParallaxImage({
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 mix-blend-overlay"
-        style={{ background: "linear-gradient(rgba(0,127,255,0.14), rgba(4,6,12,0.55))" }}
+        style={{ background: "linear-gradient(rgba(0,127,255,0.14), rgba(5,10,22,0.55))" }}
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(to bottom, var(--bg) 0%, rgba(4,6,12,0.25) 28%, rgba(4,6,12,0.45) 70%, var(--bg) 100%)",
+            "linear-gradient(to bottom, var(--bg) 0%, rgba(5,10,22,0.25) 28%, rgba(5,10,22,0.45) 70%, var(--bg) 100%)",
         }}
       />
       {children}

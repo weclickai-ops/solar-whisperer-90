@@ -267,9 +267,149 @@ export const cta = {
 
 export const nav = [
   { label: "Home", to: "/" },
-  { label: "Technology", to: "/technology" },
-  { label: "Product", to: "/product" },
-  { label: "Engineering", to: "/specs" },
   { label: "About", to: "/about" },
+  { label: "Technology", to: "/technology" },
+  { label: "Products", to: "/product" },
+  { label: "Projects", to: "/projects" },
+  { label: "Why Glarenergy", to: "/why-glarenergy" },
   { label: "Contact", to: "/contact" },
 ] as const;
+
+/* ------------------------------------------------------------------ */
+/* Product detail pages — only verified datasheet claims.              */
+/* ------------------------------------------------------------------ */
+
+export type ProductPageData = {
+  id: string;
+  name: string;
+  fullName: string;
+  positioning: string;
+  overview: { what: string; problem: string; where: string };
+  features: Feature[];
+  benefits: string[];
+  specs: SpecRow[];
+  image: { src: string; alt: string };
+};
+
+export const productPages: ProductPageData[] = [
+  {
+    id: "2p-hsat",
+    name: "2P HSAT",
+    fullName: "Horizontal Single Axis Tracker — two modules in portrait",
+    positioning:
+      "A dual-row horizontal tracker with precision motorization and a low-profile design for maximum stability.",
+    overview: {
+      what: "A horizontal single-axis tracker carrying two modules in portrait per row, driven by a single-point linear actuator and one controller per tracker.",
+      problem:
+        "Fixed-tilt arrays peak briefly at midday. Tracking the sun's east–west path captures more of the available irradiance across the whole day.",
+      where:
+        "Utility-scale solar plants on flat or undulating terrain — 10% N–S and 10% E–W slope tolerance — including bifacial module layouts.",
+    },
+    features: [
+      { title: "Intelligent tracking control", description: "Astronomical + intelligent algorithm, one controller per tracker." },
+      { title: "Accurate positioning", description: "±2° tracking accuracy across a ±45° to ±60° rotation range." },
+      { title: "Reliable operation", description: "180 km/h wind survival with 0° stow; -15°C to 60°C operating range." },
+      { title: "System integration", description: "Zigbee mesh, Ethernet and RS485 communications." },
+      { title: "Utility-scale design", description: "50 m – 100 m trackers carrying up to 100 modules." },
+      { title: "Backtracking", description: "Eliminates row-to-row shading (3D backtracking optional)." },
+    ],
+    benefits: [
+      "Increases energy output by 15–25% over fixed-tilt",
+      "Wind-resistant up to 180 km/h",
+      "Ideal for flat terrains and bifacial modules",
+      "Cost-effective land use with shared drive systems",
+    ],
+    specs: designSpecs,
+    image: {
+      src: "/images/tracker-row.jpg",
+      alt: "Close-up of a 2P HSAT tracker row showing the torque tube and drive assembly beneath the modules",
+    },
+  },
+  {
+    id: "1p-tsat",
+    name: "1P TSAT",
+    fullName: "Tracker Single Axis Tracker — one module in portrait",
+    positioning:
+      "A single-row portrait tracker built on the same precision drive and control platform.",
+    overview: {
+      what: "A horizontal single-axis tracker carrying one module in portrait per row, using the same single-point linear actuator and per-tracker controller.",
+      problem:
+        "Some sites and module strategies call for a single-row portrait layout — without giving up tracking accuracy or wind resilience.",
+      where:
+        "Utility-scale plants on flat terrain with 10% N–S and 10% E–W slope tolerance, supporting commercial and bifacial modules.",
+    },
+    features: [
+      { title: "Intelligent tracking control", description: "Astronomical + intelligent algorithm, one controller per tracker." },
+      { title: "Accurate positioning", description: "±2° tracking accuracy across a ±45° to ±60° rotation range." },
+      { title: "Reliable operation", description: "180 km/h wind survival with 0° stow; -15°C to 60°C operating range." },
+      { title: "System integration", description: "Zigbee mesh, Ethernet and RS485 communications." },
+      { title: "Single-row portrait", description: "One module in portrait per row on the shared drive platform." },
+      { title: "Backtracking", description: "Eliminates row-to-row shading (3D backtracking optional)." },
+    ],
+    benefits: [
+      "Single-row portrait layout with the same drive system",
+      "Tracking-grade yield uplift over fixed-tilt",
+      "Wind-resistant up to 180 km/h",
+      "Bifacial module support",
+    ],
+    specs: designSpecs,
+    image: {
+      src: "/images/actuator-detail.jpg",
+      alt: "Detail of the single-point linear actuator drive used on the 1P TSAT tracker",
+    },
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Why Glarenergy — six concise value propositions.                    */
+/* ------------------------------------------------------------------ */
+
+export const whyCards: Feature[] = [
+  {
+    title: "Technology",
+    description: "Intelligent tracker-controller solutions: astronomical + intelligent algorithms with ±2° accuracy.",
+  },
+  {
+    title: "Engineering",
+    description: "Single-point linear actuator drive and low-voltage 24V DC motorization, designed for utility scale.",
+  },
+  {
+    title: "Efficiency",
+    description: "15–25% more energy yield than fixed-tilt, with backtracking to remove row-to-row shading.",
+  },
+  {
+    title: "Reliability",
+    description: "180 km/h wind survival with 0° stow, operating from -15°C to 60°C in real-world conditions.",
+  },
+  {
+    title: "Indian Capability",
+    description: "India-based engineering and support, close to some of the world's fastest-growing solar markets.",
+  },
+  {
+    title: "Partnership",
+    description: "Built to work with EPCs, developers and project owners from design through deployment.",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Projects — no verified project data yet.                            */
+/* CONTENT REQUIRED FROM GLARENERGY: project name, location, capacity, */
+/* technology, application, challenge, solution, measured results.     */
+/* Until supplied, the Projects page shows the case-study framework    */
+/* marked "coming soon" rather than fictional numbers.                 */
+/* ------------------------------------------------------------------ */
+
+export const projectFields = [
+  "Project name",
+  "Location",
+  "Capacity",
+  "Technology",
+  "Application",
+] as const;
+
+export const projectStoryFields = ["Challenge", "Solution", "Result"] as const;
+
+export const projectsStatus = {
+  heading: "Project case studies are on the way.",
+  body: "We publish project proof only when the data is verified. Detailed case studies — capacity, technology, challenge, solution and measured results — will appear here as projects are documented.",
+} as const;

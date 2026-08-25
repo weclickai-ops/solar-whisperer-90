@@ -1,98 +1,104 @@
 /* ============================================================
-   src/components/Reveal.tsx  —  FILE 3 / 12
-   New file. Drives every scroll-in animation on the site.
+   src/components/g/Reveal.tsx
+   BUILD FIX — replace the file at this exact path.
 
-   Usage:
-     <Reveal>...</Reveal>              plain
-     <Reveal i={2}>...</Reveal>        staggered (2 x 55ms)
-     <Reveal as="section" className="blk">...</Reveal>
+   Your 21 build errors were all the same thing: 21 route files
+   do `import { Reveal } from "@/components/g/Reveal"` — a NAMED
+   import — and the version I gave you only had a default export.
+
+   This file exports BOTH, so every existing import keeps working
+   and nothing else in the repo has to change.
+
+   It is also self-contained: the styles are inline, so it does
+   not depend on a `.rv` class existing in index.css.
    ============================================================ */
 
 import {
   useEffect,
   useRef,
+  useState,
+  type CSSProperties,
   type ElementType,
   type ReactNode,
 } from "react";
 
-/* ------------------------------------------------------------
-   One shared observer for the whole app rather than one per
-   element — cheaper, and it keeps timing consistent between
-   sections that enter the viewport together.
-   ------------------------------------------------------------ */
-
-type Cb = () => void;
-
-let observer: IntersectionObserver | null = null;
-const callbacks = new Map<Element, Cb>();
-
-function getObserver(): IntersectionObserver | null {
-  if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
-    return null;
-  }
-  if (!observer) {
-    observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const cb = callbacks.get(entry.target);
-          if (cb) cb();
-          callbacks.delete(entry.target);
-          observer?.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.06 },
-    );
-  }
-  return observer;
-}
-
-/* ------------------------------------------------------------ */
-
 interface RevealProps {
   children: ReactNode;
-  /** Stagger index. Capped at 5 so long grids never crawl. */
-  i?: number;
   className?: string;
+  style?: CSSProperties;
+  /** Stagger index — multiplied by 55ms. Capped at 5. */
+  i?: number;
+  /** Delay. Accepts seconds (0.24) or milliseconds (240). */
+  delay?: number;
   as?: ElementType;
 }
 
-export default function Reveal({
+function toMs(delay?: number, i?: number): number {
+  if (typeof delay === "number") {
+    // Values under 20 are almost certainly seconds, not ms.
+    return delay < 20 ? delay * 1000 : delay;
+  }
+  return Math.min(i ?? 0, 5) * 55;
+}
+
+export function Reveal({
   children,
-  i = 0,
   className = "",
+  style,
+  i,
+  delay,
   as: Tag = "div",
 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // No motion wanted, or no observer support: show it immediately.
-    const io = getObserver();
-    if (reduced || !io) {
-      el.classList.add("in");
+    if (reduced || typeof IntersectionObserver === "undefined") {
+      setShown(true);
       return;
     }
 
-    el.style.transitionDelay = `${Math.min(i, 5) * 55}ms`;
-    callbacks.set(el, () => el.classList.add("in"));
-    io.observe(el);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          setShown(true);
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.06 },
+    );
 
-    return () => {
-      callbacks.delete(el);
-      io.unobserve(el);
-    };
-  }, [i]);
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const ms = toMs(delay, i);
 
   return (
-    <Tag ref={ref} className={`rv ${className}`.trim()}>
+    <Tag
+      ref={ref}
+      className={className}
+      style={{
+        opacity: shown ? 1 : 0,
+        transform: shown ? "none" : "translateY(16px)",
+        transition:
+          "opacity 700ms cubic-bezier(.16,1,.3,1), transform 700ms cubic-bezier(.16,1,.3,1)",
+        transitionDelay: `${ms}ms`,
+        willChange: shown ? undefined : "opacity, transform",
+        ...style,
+      }}
+    >
       {children}
     </Tag>
   );
 }
+
+export default Reveal;

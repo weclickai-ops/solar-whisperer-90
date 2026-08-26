@@ -36,7 +36,6 @@ export function HeroArray() {
           <stop offset="100%" stopColor="#007FFF" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="ha-glass" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#0B2murk" />
           <stop offset="0%" stopColor="#0B2444" />
           <stop offset="100%" stopColor="#050B18" />
         </linearGradient>

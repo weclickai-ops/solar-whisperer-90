@@ -6,14 +6,10 @@ const columns = [
   {
     title: "Explore",
     links: [
+      { label: "Home", to: "/" },
       { label: "Technology", to: "/technology" },
       { label: "Product", to: "/product" },
-      { label: "Specs", to: "/specs" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
+      { label: "Specifications", to: "/specifications" },
       { label: "Contact", to: "/contact" },
     ],
   },
@@ -30,7 +26,7 @@ const footerLink =
 export function Footer() {
   return (
     <footer className="relative border-t border-[var(--line)] bg-[var(--bg-elev)]">
-      <div className="container-g grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-4">
+      <div className="container-g grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-3">
         <div className="flex flex-col gap-4">
           <Link to="/" aria-label="Glarenergy home" className="w-fit cursor-pointer">
             <Logo />

@@ -14,10 +14,10 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as SpecificationsRouteImport } from './routes/specifications'
 import { Route as SpecsRouteImport } from './routes/specs'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as WhyGlarenergyRouteImport } from './routes/why-glarenergy'
-import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,6 +44,11 @@ const ProjectsRoute = ProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpecificationsRoute = SpecificationsRouteImport.update({
+  id: '/specifications',
+  path: '/specifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpecsRoute = SpecsRouteImport.update({
   id: '/specs',
   path: '/specs',
@@ -59,11 +64,6 @@ const WhyGlarenergyRoute = WhyGlarenergyRouteImport.update({
   path: '/why-glarenergy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,10 +71,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
   '/projects': typeof ProjectsRoute
+  '/specifications': typeof SpecificationsRoute
   '/specs': typeof SpecsRoute
   '/technology': typeof TechnologyRoute
   '/why-glarenergy': typeof WhyGlarenergyRoute
-  '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -82,10 +82,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
   '/projects': typeof ProjectsRoute
+  '/specifications': typeof SpecificationsRoute
   '/specs': typeof SpecsRoute
   '/technology': typeof TechnologyRoute
   '/why-glarenergy': typeof WhyGlarenergyRoute
-  '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,10 +94,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
   '/projects': typeof ProjectsRoute
+  '/specifications': typeof SpecificationsRoute
   '/specs': typeof SpecsRoute
   '/technology': typeof TechnologyRoute
   '/why-glarenergy': typeof WhyGlarenergyRoute
-  '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,10 +107,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/product'
     | '/projects'
+    | '/specifications'
     | '/specs'
     | '/technology'
     | '/why-glarenergy'
-    | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -118,10 +118,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/product'
     | '/projects'
+    | '/specifications'
     | '/specs'
     | '/technology'
     | '/why-glarenergy'
-    | '/products/$productId'
   id:
     | '__root__'
     | '/'
@@ -129,10 +129,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/product'
     | '/projects'
+    | '/specifications'
     | '/specs'
     | '/technology'
     | '/why-glarenergy'
-    | '/products/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -141,10 +141,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ProductRoute: typeof ProductRoute
   ProjectsRoute: typeof ProjectsRoute
+  SpecificationsRoute: typeof SpecificationsRoute
   SpecsRoute: typeof SpecsRoute
   TechnologyRoute: typeof TechnologyRoute
   WhyGlarenergyRoute: typeof WhyGlarenergyRoute
-  ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -184,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/specifications': {
+      id: '/specifications'
+      path: '/specifications'
+      fullPath: '/specifications'
+      preLoaderRoute: typeof SpecificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/specs': {
       id: '/specs'
       path: '/specs'
@@ -205,13 +212,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WhyGlarenergyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/products/$productId': {
-      id: '/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof ProductsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -221,10 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ProductRoute: ProductRoute,
   ProjectsRoute: ProjectsRoute,
+  SpecificationsRoute: SpecificationsRoute,
   SpecsRoute: SpecsRoute,
   TechnologyRoute: TechnologyRoute,
   WhyGlarenergyRoute: WhyGlarenergyRoute,
-  ProductsProductIdRoute: ProductsProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

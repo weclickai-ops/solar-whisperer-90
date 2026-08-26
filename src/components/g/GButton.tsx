@@ -1,45 +1,73 @@
 import { Link } from "@tanstack/react-router";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
-import type { ComponentProps, ReactNode } from "react";
 
 type Variant = "primary" | "ghost";
 
 const base =
-  "inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition-[background-color,border-color,color,transform] duration-200 ease-out";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-[0.9375rem] font-medium transition-transform transition-colors duration-[180ms] hover:-translate-y-px";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-blue text-white hover:bg-blue-600 active:translate-y-px",
+  primary: "bg-[var(--blue)] text-white hover:bg-[var(--blue-600)]",
   ghost:
-    "border border-[var(--line-2)] bg-[var(--surface)] text-text hover:border-[var(--line-blue)] hover:text-white active:translate-y-px",
+    "border border-[var(--line-2)] text-[var(--text)] hover:border-[var(--line-blue)] hover:text-white",
 };
+
+export function GButtonLink({
+  to,
+  variant = "primary",
+  children,
+  className,
+}: {
+  to: string;
+  variant?: Variant;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Link to={to} className={cn(base, variants[variant], className)}>
+      {children}
+    </Link>
+  );
+}
+
+export function GButtonAnchor({
+  href,
+  variant = "primary",
+  children,
+  className,
+  external,
+}: {
+  href: string;
+  variant?: Variant;
+  children: ReactNode;
+  className?: string;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className={cn(base, variants[variant], className)}
+      {...(external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+    >
+      {children}
+    </a>
+  );
+}
 
 export function GButton({
   variant = "primary",
   className,
   children,
   ...props
-}: ComponentProps<"button"> & { variant?: Variant; children: ReactNode }) {
+}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
-    <button className={cn(base, variants[variant], className)} {...props}>
+    <button
+      className={cn(base, variants[variant], "disabled:opacity-60", className)}
+      {...props}
+    >
       {children}
     </button>
-  );
-}
-
-export function GLinkButton({
-  to,
-  variant = "primary",
-  className,
-  children,
-}: {
-  to: string;
-  variant?: Variant;
-  className?: string;
-  children: ReactNode;
-}) {
-  return (
-    <Link to={to} className={cn(base, variants[variant], className)}>
-      {children}
-    </Link>
   );
 }

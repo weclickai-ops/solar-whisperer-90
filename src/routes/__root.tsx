@@ -14,26 +14,37 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/g/Header";
 import { Footer } from "@/components/g/Footer";
 import { Ambient } from "@/components/g/Ambient";
+import { CursorGlow } from "@/components/g/CursorGlow";
 import { ContactDock } from "@/components/g/ContactDock";
+import { contact, identity, siteUrl } from "@/data/content";
+
+const FONTSHARE =
+  "https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&f[]=general-sans@300,400,500,600&display=swap";
+const GOOGLE_MONO =
+  "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: identity.company,
+  url: siteUrl,
+  slogan: identity.tagline,
+  email: contact.email,
+  telephone: [contact.phonePrimary, contact.phoneSecondary],
+  areaServed: "IN",
+};
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
+    <div className="container-g flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <h1 className="text-[3rem]">Page not found</h1>
+      <p className="lede mt-4">The page you requested does not exist.</p>
+      <Link
+        to="/"
+        className="mt-8 inline-flex min-h-11 items-center rounded-full bg-[var(--blue)] px-6 font-medium text-white"
+      >
+        Return home
+      </Link>
     </div>
   );
 }
@@ -46,31 +57,25 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
+    <div className="container-g flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <h1 className="text-[2.5rem]">This page did not load</h1>
+      <p className="lede mt-4">Please refresh, or return to the home page.</p>
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <button
+          onClick={() => {
+            router.invalidate();
+            reset();
+          }}
+          className="inline-flex min-h-11 items-center rounded-full bg-[var(--blue)] px-6 font-medium text-white"
+        >
+          Try again
+        </button>
+        <a
+          href="/"
+          className="inline-flex min-h-11 items-center rounded-full border border-[var(--line-2)] px-6"
+        >
+          Return home
+        </a>
       </div>
     </div>
   );
@@ -81,42 +86,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Glarenergy — Energy Made Efficient" },
-      {
-        name: "description",
-        content:
-          "Glarenergy engineers precision single-axis solar tracking systems for higher energy yield and plant performance.",
-      },
-      { name: "author", content: "Glarenergy" },
-      { property: "og:title", content: "Glarenergy — Energy Made Efficient" },
-      {
-        property: "og:description",
-        content:
-          "Precision single-axis solar tracking systems: 15–25% more yield, 180 km/h wind rated, ±2° accuracy.",
-      },
+      { name: "theme-color", content: "#04060C" },
+      { property: "og:site_name", content: identity.company },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://api.fontshare.com" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://api.fontshare.com/v2/css?f[]=satoshi@700,900&display=swap",
-      },
-      {
-        // Inter (body) and IBM Plex Mono (spec labels, readouts, SVG annotations)
-        // are requested together so the two faces cost a single round trip.
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap",
-      },
+    ],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(organizationSchema) },
     ],
   }),
   shellComponent: RootShell,
@@ -130,6 +113,20 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Webfonts load without blocking first paint; noscript keeps them for
+            visitors without JavaScript. */}
+        <link rel="stylesheet" href={FONTSHARE} media="print" data-font="fontshare" />
+        <link rel="stylesheet" href={GOOGLE_MONO} media="print" data-font="google" />
+        <noscript>
+          <link rel="stylesheet" href={FONTSHARE} />
+          <link rel="stylesheet" href={GOOGLE_MONO} />
+        </noscript>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.querySelectorAll('link[data-font]').forEach(function(l){l.media='all'});",
+          }}
+        />
       </head>
       <body>
         {children}
@@ -145,8 +142,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Ambient />
+      <CursorGlow />
       <Header />
-      <main id="main">
+      <main id="main" className="relative z-10">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </main>

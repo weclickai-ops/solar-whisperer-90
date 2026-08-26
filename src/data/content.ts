@@ -62,6 +62,20 @@ export const performanceStrip: Figure[] = [
   { value: "50–100 m", label: "Tracker Length" },
 ];
 
+export const product = {
+  name: "2P-HSAT",
+  fullName: "Horizontal Single Axis Tracker",
+  description:
+    "A dual-row horizontal tracker that follows the sun's east-west path with precision motorization and a low-profile design for maximum stability.",
+  benefits: [
+    "Increases energy output by 15–25% over fixed-tilt",
+    "Wind-resistant up to 180 km/h",
+    "Ideal for flat terrains and bifacial modules",
+    "Cost-effective land use with shared drive systems",
+  ],
+  configurations: ["HSAT 2P", "TSAT 1P"],
+} as const;
+
 export const designSpecs: SpecRow[] = [
   { label: "Tracking Type", value: "HSAT 2P & TSAT 1P" },
   { label: "Drive Type", value: "Single point linear actuator" },

@@ -1,23 +1,17 @@
-/* ============================================================
-   src/components/g/Reveal.tsx
-   BUILD FIX v2 — replace the file at this exact path.
-
-   The original module exported THREE things. Restoring all of
-   them:
-
-     Reveal                    (named + default)
-     useInView                 -> CountUp, TerrainProfile
-     usePrefersReducedMotion   -> CountUp, HeroScene, SunTrackDiagram
-
-   useInView is deliberately signature-agnostic, because the
-   four consumers may call it in different ways:
-
-     const [ref, inView] = useInView();       // tuple
-     const { ref, inView } = useInView();     // object
-     const inView = useInView(myRef);         // pass your own ref
-
-   All three work.
-   ============================================================ */
+/**
+ * Scroll-reveal primitives shared across the site.
+ *
+ * Three exports, all of them consumed elsewhere:
+ *   Reveal                   — ~21 route/section files
+ *   useInView                — CountUp, svg/EnergyCurve, svg/TerrainProfile
+ *   usePrefersReducedMotion  — CountUp, svg/EnergyCurve, svg/HeroScene,
+ *                              svg/SunTrackDiagram
+ *
+ * useInView is signature-agnostic so either calling style works:
+ *   const [ref, inView] = useInView<HTMLDivElement>();   // tuple
+ *   const { ref, inView } = useInView<HTMLDivElement>(); // object
+ *   const inView = useInView(myRef);                     // bring your own ref
+ */
 
 import {
   useEffect,
@@ -67,27 +61,34 @@ export interface InViewOptions {
   once?: boolean;
 }
 
-export type InViewResult = [RefObject<any>, boolean] & {
-  ref: RefObject<any>;
+export type InViewResult<T extends Element = Element> = [
+  RefObject<T | null>,
+  boolean,
+] & {
+  ref: RefObject<T | null>;
   inView: boolean;
   isInView: boolean;
   entry: IntersectionObserverEntry | null;
 };
 
-function isRef(v: unknown): v is RefObject<Element> {
+function isRef(v: unknown): v is RefObject<Element | null> {
   return !!v && typeof v === "object" && "current" in (v as object);
 }
 
-export function useInView(externalRef: RefObject<Element>): boolean;
-export function useInView(options?: InViewOptions): InViewResult;
-export function useInView(
-  arg?: RefObject<Element> | InViewOptions,
-): boolean | InViewResult {
-  const passedRef = isRef(arg) ? arg : null;
-  const opts: InViewOptions = isRef(arg) ? {} : (arg ?? {});
+export function useInView<T extends Element = Element>(
+  externalRef: RefObject<T | null>,
+): boolean;
+export function useInView<T extends Element = Element>(
+  options?: InViewOptions,
+): InViewResult<T>;
+export function useInView<T extends Element = Element>(
+  arg?: RefObject<T | null> | InViewOptions,
+): boolean | InViewResult<T> {
+  const passedRef = isRef(arg) ? (arg as RefObject<T | null>) : null;
+  const opts: InViewOptions = isRef(arg) ? {} : ((arg as InViewOptions) ?? {});
 
-  const internalRef = useRef<any>(null);
-  const ref = (passedRef ?? internalRef) as RefObject<any>;
+  const internalRef = useRef<T | null>(null);
+  const ref = passedRef ?? internalRef;
 
   const [inView, setInView] = useState(false);
   const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
@@ -129,7 +130,7 @@ export function useInView(
 
   // Otherwise return something that destructures as a tuple OR
   // as an object, so either calling style works.
-  const result = [ref, inView] as InViewResult;
+  const result = [ref, inView] as InViewResult<T>;
   result.ref = ref;
   result.inView = inView;
   result.isInView = inView;

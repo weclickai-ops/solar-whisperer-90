@@ -10,23 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ProductRouteImport } from './routes/product'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as SpecsRouteImport } from './routes/specs'
+import { Route as SpecificationsRouteImport } from './routes/specifications'
 import { Route as TechnologyRouteImport } from './routes/technology'
-import { Route as WhyGlarenergyRouteImport } from './routes/why-glarenergy'
-import { Route as ProductsProductIdRouteImport } from './routes/products.$productId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -39,14 +30,9 @@ const ProductRoute = ProductRouteImport.update({
   path: '/product',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SpecsRoute = SpecsRouteImport.update({
-  id: '/specs',
-  path: '/specs',
+const SpecificationsRoute = SpecificationsRouteImport.update({
+  id: '/specifications',
+  path: '/specifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TechnologyRoute = TechnologyRouteImport.update({
@@ -54,97 +40,49 @@ const TechnologyRoute = TechnologyRouteImport.update({
   path: '/technology',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WhyGlarenergyRoute = WhyGlarenergyRouteImport.update({
-  id: '/why-glarenergy',
-  path: '/why-glarenergy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
-  id: '/products/$productId',
-  path: '/products/$productId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
-  '/projects': typeof ProjectsRoute
-  '/specs': typeof SpecsRoute
+  '/specifications': typeof SpecificationsRoute
   '/technology': typeof TechnologyRoute
-  '/why-glarenergy': typeof WhyGlarenergyRoute
-  '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
-  '/projects': typeof ProjectsRoute
-  '/specs': typeof SpecsRoute
+  '/specifications': typeof SpecificationsRoute
   '/technology': typeof TechnologyRoute
-  '/why-glarenergy': typeof WhyGlarenergyRoute
-  '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
-  '/projects': typeof ProjectsRoute
-  '/specs': typeof SpecsRoute
+  '/specifications': typeof SpecificationsRoute
   '/technology': typeof TechnologyRoute
-  '/why-glarenergy': typeof WhyGlarenergyRoute
-  '/products/$productId': typeof ProductsProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/contact'
-    | '/product'
-    | '/projects'
-    | '/specs'
-    | '/technology'
-    | '/why-glarenergy'
-    | '/products/$productId'
+  fullPaths: '/' | '/contact' | '/product' | '/specifications' | '/technology'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/contact'
-    | '/product'
-    | '/projects'
-    | '/specs'
-    | '/technology'
-    | '/why-glarenergy'
-    | '/products/$productId'
+  to: '/' | '/contact' | '/product' | '/specifications' | '/technology'
   id:
     | '__root__'
     | '/'
-    | '/about'
     | '/contact'
     | '/product'
-    | '/projects'
-    | '/specs'
+    | '/specifications'
     | '/technology'
-    | '/why-glarenergy'
-    | '/products/$productId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   ProductRoute: typeof ProductRoute
-  ProjectsRoute: typeof ProjectsRoute
-  SpecsRoute: typeof SpecsRoute
+  SpecificationsRoute: typeof SpecificationsRoute
   TechnologyRoute: typeof TechnologyRoute
-  WhyGlarenergyRoute: typeof WhyGlarenergyRoute
-  ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -154,13 +92,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -177,18 +108,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/specs': {
-      id: '/specs'
-      path: '/specs'
-      fullPath: '/specs'
-      preLoaderRoute: typeof SpecsRouteImport
+    '/specifications': {
+      id: '/specifications'
+      path: '/specifications'
+      fullPath: '/specifications'
+      preLoaderRoute: typeof SpecificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/technology': {
@@ -198,33 +122,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TechnologyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/why-glarenergy': {
-      id: '/why-glarenergy'
-      path: '/why-glarenergy'
-      fullPath: '/why-glarenergy'
-      preLoaderRoute: typeof WhyGlarenergyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/products/$productId': {
-      id: '/products/$productId'
-      path: '/products/$productId'
-      fullPath: '/products/$productId'
-      preLoaderRoute: typeof ProductsProductIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   ProductRoute: ProductRoute,
-  ProjectsRoute: ProjectsRoute,
-  SpecsRoute: SpecsRoute,
+  SpecificationsRoute: SpecificationsRoute,
   TechnologyRoute: TechnologyRoute,
-  WhyGlarenergyRoute: WhyGlarenergyRoute,
-  ProductsProductIdRoute: ProductsProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

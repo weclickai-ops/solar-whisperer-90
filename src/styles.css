@@ -6,7 +6,8 @@
 
 /*
  * Glarenergy design system — dark precision-engineering brand.
- * Only accents: #007FFF (blue) and #3FD4FF (cyan). Never green/purple/teal/orange.
+ * Only accents: #007FFF (blue) and #3FD4FF (cyan).
+ * Never green, purple, teal, orange or rainbow gradients.
  */
 
 @theme inline {
@@ -51,9 +52,6 @@
   --color-blue: var(--blue);
   --color-blue-600: var(--blue-600);
   --color-cyan: var(--cyan);
-  --color-navy-800: var(--navy-800);
-  --color-navy-700: var(--navy-700);
-  --color-navy-600: var(--navy-600);
   --color-bg: var(--bg);
   --color-bg-elev: var(--bg-elev);
   --color-text: var(--text);
@@ -64,51 +62,27 @@
   --color-line-blue: var(--line-blue);
   --color-surface: var(--surface);
 
-  --font-display: "Satoshi", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-
-  /* Type scale — fluid down to mobile */
-  --text-display: clamp(2.5rem, 8vw, 5.5rem);
-  --text-h1: clamp(2.25rem, 6.4vw, 4rem);
-  --text-h2: clamp(1.75rem, 4.2vw, 2.75rem);
-  --text-h3: clamp(1.25rem, 2.2vw, 1.75rem);
-  --text-body: clamp(1rem, 1.1vw, 1.0625rem);
-  --text-small: 0.875rem;
+  --font-display: "Clash Display", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
   --radius: 0.75rem;
 
-  /*
-   * The navy steps below are sampled from the hero artwork's own gradients
-   * rather than picked freehand, so the UI and the illustrations sit in one
-   * colour family instead of two that merely coexist.
-   */
+  --bg: #04060c;
+  --bg-elev: #070d18;
+  --surface: rgba(255, 255, 255, 0.025);
   --blue: #007fff;
   --blue-600: #0069d6;
   --cyan: #3fd4ff;
-
-  --navy-800: #0b213c;
-  --navy-700: #123a66;
-  --navy-600: #164a80;
-
-  --bg: #050a16;
-  --bg-elev: #0a1526;
-  --text: #ffffff;
-  --text-2: #a8b4c8;
+  --text: #e9eefb;
+  --text-2: #aeb9d6;
   --text-3: #7d8aa8;
-
-  /*
-   * Hairlines were white at 9% and painted ~840 times per page, which is what
-   * made a blue brand read as grey. Tinting them navy is the single change
-   * that rebalances the page toward blue without touching a layout rule.
-   */
-  --line: rgba(94, 152, 219, 0.16);
-  --line-2: rgba(94, 152, 219, 0.3);
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.16);
   --line-blue: rgba(0, 127, 255, 0.45);
-  --surface: rgba(22, 74, 128, 0.1);
 
   /* shadcn semantic mapping onto the brand */
   --background: var(--bg);
@@ -125,7 +99,7 @@
   --muted-foreground: var(--text-3);
   --accent: rgba(0, 127, 255, 0.12);
   --accent-foreground: var(--text);
-  --destructive: #ff5c72;
+  --destructive: #ff6b7f;
   --destructive-foreground: #ffffff;
   --border: var(--line);
   --input: var(--line-2);
@@ -154,10 +128,12 @@
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.1vw, 1.0625rem);
-    line-height: 1.6;
-    overflow-x: hidden;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
   }
 
   h1,
@@ -165,50 +141,36 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
     color: var(--text);
     text-wrap: balance;
-    letter-spacing: -0.03em;
   }
 
   h1 {
-    font-size: var(--text-h1);
-    font-weight: 900;
-    line-height: 0.95;
+    font-size: clamp(2.75rem, 7.5vw, 6rem);
   }
 
   h2 {
-    font-size: var(--text-h2);
-    line-height: 1.05;
+    font-size: clamp(2rem, 4.6vw, 3.5rem);
   }
 
   h3 {
-    font-size: var(--text-h3);
-    line-height: 1.2;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.15;
   }
 
   h4 {
     font-size: 1.0625rem;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: -0.005em;
+    line-height: 1.25;
   }
 
   p {
     color: var(--text-2);
-    line-height: 1.6;
+    line-height: 1.65;
+    max-width: 52ch;
     text-wrap: pretty;
-    max-width: 62ch;
-  }
-
-  /* Sentence-length copy that still needs the display face. */
-  .prose-display {
-    font-family: var(--font-display);
-    font-weight: 700;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-    text-wrap: pretty;
-    color: var(--text);
   }
 
   .font-display,
@@ -247,29 +209,8 @@
   border: 1px solid var(--line);
 }
 
-/* Small uppercase labels, breadcrumbs and spec captions. */
-@utility label-sm {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-}
-
-/* Consistent vertical rhythm for every content section. */
 @utility section-g {
-  padding-block: clamp(5rem, 9vw, 8rem);
-}
-
-/* Photography grading — identical across every image so they read as one brand. */
-@utility plate-media {
-  filter: saturate(0.65) contrast(1.12) brightness(0.82);
-}
-
-@utility text-gradient-cyan {
-  background: linear-gradient(100deg, #ffffff 10%, var(--cyan) 92%);
-  background-clip: text;
-  color: transparent;
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
 }
 
 @utility lede {
@@ -279,43 +220,94 @@
   max-width: 52ch;
 }
 
-@keyframes g-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
+/* Mono labels, eyebrows, telemetry chips, step numbers. */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@utility sr-only-hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+ * Cursor glow — a blue radial highlight clipped inside the element.
+ * --mx / --my are written by one delegated pointermove listener on document.
+ */
+.card,
+.step,
+.sheet {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.card::before,
+.step::before,
+.sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+  background: radial-gradient(
+    180px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(0, 127, 255, 0.09),
+    transparent 72%
+  );
+}
+
+.card:hover::before,
+.step:hover::before,
+.sheet:hover::before {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .card::before,
+  .step::before,
+  .sheet::before {
+    display: none;
   }
 }
 
-@keyframes g-ping-ring {
-  0% {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-  70%,
-  100% {
-    transform: scale(2.1);
-    opacity: 0;
-  }
+/* Scroll reveal — opacity + 16px rise, fires once. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
-@keyframes g-line-rise {
-  from {
-    transform: translateY(105%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-@utility animate-line-rise {
-  animation: g-line-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   *,
@@ -327,7 +319,7 @@
   }
 }
 
-/* Clean datasheet output when a spec page is printed. */
+/* Clean datasheet output when the specifications page is printed. */
 @media print {
   :root {
     --bg: #ffffff;
@@ -346,10 +338,7 @@
 
   header,
   footer,
-  nav,
-  img,
-  svg,
-  figure {
+  nav {
     display: none !important;
   }
 

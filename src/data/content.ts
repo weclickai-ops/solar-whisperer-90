@@ -267,11 +267,9 @@ export const cta = {
 
 export const nav = [
   { label: "Home", to: "/" },
-  { label: "About", to: "/about" },
   { label: "Technology", to: "/technology" },
-  { label: "Products", to: "/product" },
-  { label: "Projects", to: "/projects" },
-  { label: "Why Glarenergy", to: "/why-glarenergy" },
+  { label: "Product", to: "/product" },
+  { label: "Specifications", to: "/specs" },
   { label: "Contact", to: "/contact" },
 ] as const;
 

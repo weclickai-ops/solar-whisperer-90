@@ -1,33 +1,28 @@
-import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
+
 import { Eyebrow } from "./Eyebrow";
 import { Reveal } from "./Reveal";
+import { cn } from "@/lib/utils";
 
 export function SectionHead({
   eyebrow,
-  title,
+  heading,
   lede,
-  align = "left",
   className,
-  as: Heading = "h2",
+  children,
 }: {
   eyebrow?: string;
-  title: string;
+  heading: string;
   lede?: string;
-  align?: "left" | "center";
   className?: string;
-  as?: "h2" | "h3";
+  children?: ReactNode;
 }) {
   return (
-    <Reveal
-      className={cn(
-        "flex flex-col gap-5",
-        align === "center" && "items-center text-center",
-        className,
-      )}
-    >
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <Heading className="max-w-[20ch]">{title}</Heading>
-      {lede ? <p className={cn("lede", align === "center" && "mx-auto")}>{lede}</p> : null}
+    <Reveal className={cn("max-w-3xl", className)}>
+      {eyebrow ? <Eyebrow className="mb-5">{eyebrow}</Eyebrow> : null}
+      <h2>{heading}</h2>
+      {lede ? <p className="lede mt-6">{lede}</p> : null}
+      {children}
     </Reveal>
   );
 }

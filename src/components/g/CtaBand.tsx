@@ -1,36 +1,47 @@
-import { ArrowRight } from "lucide-react";
-import { cta } from "@/data/content";
-import { GLinkButton } from "./GButton";
+import { GButtonLink } from "./GButton";
 import { Reveal } from "./Reveal";
 
-export function CtaBand() {
+/** The one full blue-bordered band each page ends on. */
+export function CtaBand({
+  heading,
+  body,
+  label,
+  to,
+}: {
+  heading: string;
+  body: string;
+  label: string;
+  to: string;
+}) {
   return (
-    <section className="container-g py-20 md:py-28">
-      <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] border border-[var(--line-blue)] bg-[var(--bg-elev)] px-6 py-16 text-center md:px-16">
+    <section className="section-g relative z-10">
+      <div className="container-g">
+        <Reveal>
           <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
+            className="relative overflow-hidden rounded-2xl border px-6 py-14 text-center sm:px-12"
             style={{
-              background:
-                "radial-gradient(60% 70% at 50% -10%, rgba(0,127,255,0.28), transparent 70%)",
+              borderColor: "rgba(0,127,255,.45)",
+              backgroundColor: "var(--bg-elev)",
             }}
-          />
-          <div className="relative flex flex-col items-center gap-6">
-            <h2 className="max-w-[18ch] text-balance">{cta.heading}</h2>
-            <p className="lede mx-auto text-center">{cta.body}</p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <GLinkButton to="/contact">
-                {cta.primary}
-                <ArrowRight size={15} aria-hidden="true" />
-              </GLinkButton>
-              <GLinkButton to="/contact" variant="ghost">
-                {cta.secondary}
-              </GLinkButton>
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(60% 90% at 50% 0%, rgba(0,127,255,.22), transparent 70%)",
+              }}
+            />
+            <div className="relative mx-auto max-w-2xl">
+              <h2>{heading}</h2>
+              <p className="lede mx-auto mt-5">{body}</p>
+              <div className="mt-8 flex justify-center">
+                <GButtonLink to={to}>{label}</GButtonLink>
+              </div>
             </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -1,167 +1,148 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import { designSpecs, features, product } from "@/data/content";
-import { PageHeader } from "@/components/g/PageHeader";
-import { ProductShowcase } from "@/components/sections/ProductShowcase";
-import { ConfigComparator } from "@/components/sections/ConfigComparator";
-import { SpecSheet } from "@/components/sections/SpecSheet";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+
+import { Eyebrow } from "@/components/g/Eyebrow";
+import { GButtonLink } from "@/components/g/GButton";
+import { GCard, GCardBody, GCardTitle } from "@/components/g/Card";
 import { CtaBand } from "@/components/g/CtaBand";
-import { GCard } from "@/components/g/GCard";
+import { Placeholder } from "@/components/g/Placeholder";
 import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
-import { Plate } from "@/components/g/Plate";
+import { SpecTable } from "@/components/g/SpecTable";
+import { Cutaway } from "@/components/svg/Cutaway";
+import { ctas, productPage, siteUrl, type ConfigKey } from "@/data/content";
+import { routeHead } from "@/lib/seo";
 
-const moduleConfig = [
-  { label: "Modules per tracker", value: "Up to 100 modules" },
-  { label: "Module support", value: "Commercial & bifacial" },
-  { label: "Arrangement", value: "Two in portrait (2P) or one in portrait (1P)" },
-  { label: "Tracker length", value: "50 m – 100 m" },
-  { label: "Ground coverage ratio", value: ">15%" },
-];
-
-const foundations = [
-  { label: "Foundation methods", value: "Ramming / pre-drill / PHC" },
-  { label: "Anti-corrosion", value: "Galvanized / Mg-Zn coated" },
-  { label: "Piles per MW", value: "~450" },
-  { label: "Operating temperature", value: "-15°C to 60°C" },
-];
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: productPage.name,
+  description: productPage.description,
+  category: "Solar tracker",
+  brand: { "@type": "Brand", name: "Glarenergy" },
+  url: `${siteUrl}/product`,
+  additionalProperty: [
+    { "@type": "PropertyValue", name: "Tracking accuracy", value: "±2°" },
+    { "@type": "PropertyValue", name: "Rotation range", value: "±45° to ±60°" },
+    { "@type": "PropertyValue", name: "Wind stow", value: "0° at 180 km/h" },
+    { "@type": "PropertyValue", name: "Tracker length", value: "50–100 m" },
+    { "@type": "PropertyValue", name: "Module count", value: "Up to 100" },
+    { "@type": "PropertyValue", name: "Operating temperature", value: "−15 °C to 60 °C" },
+  ],
+};
 
 export const Route = createFileRoute("/product")({
-  head: () => ({
-    meta: [
-      { title: "2P-HSAT Horizontal Single Axis Tracker — Glarenergy" },
-      {
-        name: "description",
-        content:
-          "The Glarenergy 2P-HSAT: a dual-row horizontal single axis tracker with single-point linear actuator drive and ±2° accuracy.",
-      },
-      { property: "og:title", content: "2P-HSAT Horizontal Single Axis Tracker — Glarenergy" },
-      {
-        property: "og:description",
-        content:
-          "Dual-row horizontal tracker with precision motorization, wind-rated to 180 km/h and bifacial ready.",
-      },
-    ],
-  }),
+  head: () => {
+    const base = routeHead("/product");
+    return {
+      ...base,
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(productSchema) }],
+    };
+  },
   component: ProductPage,
 });
 
 function ProductPage() {
+  const [config, setConfig] = useState<ConfigKey>("2p");
+  const active = productPage.configs[config];
+
   return (
     <>
-      <PageHeader
-        breadcrumb="Product"
-        eyebrow={`${product.name} · ${product.fullName}`}
-        title="A dual-row tracker built around one precise axis."
-        lede={product.description}
-      />
-
-      <ProductShowcase showLink={false} />
-
-      <section className="container-g pb-20 md:pb-28">
-        <SectionHead eyebrow="Benefits" title="Why plants specify the 2P-HSAT." />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {product.benefits.map((b, i) => (
-            <Reveal key={b} delay={i * 50}>
-              <GCard className="h-full">
-                <p className="font-mono text-xs text-cyan">{String(i + 1).padStart(2, "0")}</p>
-                <p className="mt-3 font-display text-lg text-text">{b}</p>
-              </GCard>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <ConfigComparator />
-
-      {/* Module configuration */}
-      <section className="container-g pb-20 md:pb-28">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <SectionHead
-              eyebrow="Module configuration"
-              title="Up to 100 modules on one axis."
-              lede="Commercial and bifacial modules are both supported, in single- or dual-portrait arrangement along a 50 m to 100 m tracker."
-            />
-          </div>
-          <Reveal delay={60}>
-            <dl className="divide-y divide-[var(--line)] rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)]">
-              {moduleConfig.map((r) => (
-                <div key={r.label} className="grid grid-cols-1 gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-4 px-6 py-4">
-                  <dt className="text-sm text-[var(--text-3)]">{r.label}</dt>
-                  <dd className="text-right font-mono text-sm text-text">{r.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Foundations & corrosion */}
-      <section className="container-g pb-20 md:pb-28">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <SectionHead
-              eyebrow="Foundations & corrosion"
-              title="Founded for the ground it stands on."
-              lede="Ramming, pre-drill or PHC piles at roughly 450 piles per MW, with galvanized or Mg-Zn coated steel for corrosion resistance."
-            />
-          </div>
-          <Reveal delay={60}>
-            <dl className="divide-y divide-[var(--line)] rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)]">
-              {foundations.map((r) => (
-                <div key={r.label} className="grid grid-cols-1 gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-4 px-6 py-4">
-                  <dt className="text-sm text-[var(--text-3)]">{r.label}</dt>
-                  <dd className="text-right font-mono text-sm text-text">{r.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Full feature set */}
-      <section className="container-g pb-20 md:pb-28">
-        <SectionHead eyebrow="Capabilities" title="The full feature set." />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f, i) => (
-            <Reveal key={f.title} delay={i * 40}>
-              <div className="h-full rounded-2xl border border-[var(--line)] p-5 transition-colors duration-200 hover:border-[var(--line-blue)]">
-                <h3 className="font-display text-base">{f.title}</h3>
-                <p className="mt-2 text-sm">{f.description}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Plate: tracker-row.jpg — single row close up, torque tube and drive visible */}
-      <section className="container-g pb-20 md:pb-28">
+      {/* Product hero */}
+      <section className="container-g grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
         <Reveal>
-          <Plate
-            src="/images/tracker-row.jpg"
-            alt="Close-up of a single tracker row showing the torque tube and drive assembly beneath the modules"
-            width={1920}
-            height={1080}
-          />
-        </Reveal>
-      </section>
+          <Eyebrow className="mb-6">{productPage.eyebrow}</Eyebrow>
+          <h1>{productPage.name}</h1>
+          <p className="mono-label mt-4 text-cyan">{productPage.fullName}</p>
+          <p className="lede mt-6">{productPage.description}</p>
+          <div className="mt-9">
+            <GButtonLink to="/contact">{productPage.cta}</GButtonLink>
+          </div>
 
-      <section className="container-g pb-20 md:pb-28">
-        <SectionHead eyebrow="Summary" title="Design specification." className="mb-10" />
-        <SpecSheet id="design" title="Design Specification" rows={designSpecs} />
-        <Reveal delay={80}>
-          <Link
-            to="/specifications"
-            className="mt-8 inline-flex cursor-pointer items-center gap-2 border-b border-[var(--line-blue)] pb-1 text-sm text-cyan transition-colors duration-200 hover:text-text"
+          <div
+            className="mt-10 inline-flex rounded-full border border-[var(--line-2)] p-1"
+            role="group"
+            aria-label="Tracker configuration"
           >
-            View the full datasheet
-            <ArrowRight size={15} aria-hidden="true" />
-          </Link>
+            {(Object.keys(productPage.configs) as ConfigKey[]).map((key) => {
+              const selected = key === config;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => setConfig(key)}
+                  className="min-h-11 rounded-full px-5 text-[0.875rem] font-medium transition-colors"
+                  style={{
+                    background: selected ? "var(--blue)" : "transparent",
+                    color: selected ? "#fff" : "var(--text-2)",
+                  }}
+                >
+                  {productPage.configs[key].label}
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
+
+        <Reveal index={1} className="rounded-2xl border border-[var(--line)] bg-[var(--bg-elev)] p-4">
+          <Cutaway />
         </Reveal>
       </section>
 
-      <CtaBand />
+      {/* Configuration */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g grid gap-12 lg:grid-cols-2">
+          <SectionHead
+            eyebrow="Configuration"
+            heading="One platform, two configurations."
+            lede="Both configurations share the same drive, control and protection behaviour. Only the module arrangement and axis differ."
+          />
+          <Reveal index={1}>
+            <p className="mono-label mb-4 text-cyan">{active.label}</p>
+            <SpecTable rows={active.rows} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Assembly and components */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
+          <SectionHead
+            eyebrow={productPage.assembly.eyebrow}
+            heading={productPage.assembly.heading}
+          />
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {productPage.assembly.cards.map((card, i) => (
+              <Reveal key={card.title} index={i}>
+                <GCard className="h-full">
+                  <GCardTitle>{card.title}</GCardTitle>
+                  <GCardBody>{card.description}</GCardBody>
+                </GCard>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* In service */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g grid items-center gap-12 lg:grid-cols-2">
+          <SectionHead
+            eyebrow={productPage.service.eyebrow}
+            heading={productPage.service.heading}
+            lede={productPage.service.body}
+          />
+          <Reveal index={1}>
+            <Placeholder
+              label={productPage.service.placeholder.label}
+              dimensions={productPage.service.placeholder.dimensions}
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      <CtaBand {...ctas.product} />
     </>
   );
 }

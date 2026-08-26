@@ -13,7 +13,7 @@ export const Route = createFileRoute("/specifications")({
 });
 
 function SpecificationsPage() {
-  const [active, setActive] = useState(specifications.blocks[0].id);
+  const [active, setActive] = useState<string>(specifications.blocks[0]!.id);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

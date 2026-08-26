@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactElement } from "react";
 
 import { contact } from "@/data/content";
 
-type Pill = { label: string; href: string; external?: boolean; icon: JSX.Element };
+type Pill = { label: string; href: string; external?: boolean; icon: ReactElement };
 
 const iconProps = {
   width: 16,

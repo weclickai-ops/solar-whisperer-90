@@ -3,8 +3,8 @@
  *
  * Three exports, all of them consumed elsewhere:
  *   Reveal                   — ~21 route/section files
- *   useInView                — CountUp, svg/EnergyCurve, svg/TerrainProfile
- *   usePrefersReducedMotion  — CountUp, svg/EnergyCurve, svg/HeroScene,
+ *   useInView                — svg/EnergyCurve, svg/TerrainProfile
+ *   usePrefersReducedMotion  — svg/EnergyCurve, svg/HeroScene,
  *                              svg/SunTrackDiagram
  *
  * useInView is signature-agnostic so either calling style works:

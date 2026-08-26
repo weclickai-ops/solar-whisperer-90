@@ -13,11 +13,8 @@ import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
 import { GLinkButton } from "@/components/g/GButton";
 import { GCard } from "@/components/g/GCard";
-import { CountUp } from "@/components/g/CountUp";
-import { Marquee } from "@/components/g/Marquee";
 import { CtaBand } from "@/components/g/CtaBand";
 import { Plate } from "@/components/g/Plate";
-import { ParallaxImage } from "@/components/g/ParallaxImage";
 import { HeroScene } from "@/components/svg/HeroScene";
 import { SunTrackDiagram } from "@/components/svg/SunTrackDiagram";
 import { TerrainProfile } from "@/components/svg/TerrainProfile";
@@ -146,15 +143,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 1b — CINEMATIC BAND */}
-      <ParallaxImage
-        src="/images/plant-aerial.jpg"
-        alt="Utility-scale solar plant with rows of single-axis trackers at low sun"
-        className="h-[52vh] min-h-[320px] md:h-[70vh]"
-      />
 
-      {/* 2 — MARQUEE */}
-      <Marquee />
 
       {/* 3 — PERFORMANCE STRIP */}
       <section className="container-g py-20 md:py-24" aria-label="Performance figures">
@@ -169,7 +158,7 @@ function Home() {
               >
                 <dt className="sr-only">{s.label}</dt>
                 <dd className="font-display text-3xl leading-none text-text">
-                  <CountUp value={s.value} />
+                  {s.value}
                 </dd>
                 <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[var(--text-3)]">
                   {s.label}

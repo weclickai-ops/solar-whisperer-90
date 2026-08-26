@@ -1,274 +1,233 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowRight, Check, Mail, Phone, Globe } from "lucide-react";
-import { contact, cta } from "@/data/content";
-import { PageHeader } from "@/components/g/PageHeader";
+
+import { Eyebrow } from "@/components/g/Eyebrow";
 import { Reveal } from "@/components/g/Reveal";
-import { GButton } from "@/components/g/GButton";
-import { CtaBand } from "@/components/g/CtaBand";
-import { SectionHead } from "@/components/g/SectionHead";
-import { cn } from "@/lib/utils";
+import { contact, contactPage, contactRows } from "@/data/content";
+import { routeHead } from "@/lib/seo";
+
+/** Replace YOUR_FORM_ID with the Formspree form ID for connect@glarenergy.com.
+ *  Until then the form opens a pre-filled email so no enquiry is lost. */
+const ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Glarenergy — Talk to an Engineer" },
-      {
-        name: "description",
-        content:
-          "Discuss your solar tracking requirements with the Glarenergy engineering team by phone or email.",
-      },
-      { property: "og:title", content: "Contact Glarenergy — Talk to an Engineer" },
-      {
-        property: "og:description",
-        content: "Talk to our team about your solar tracking requirements.",
-      },
-    ],
-  }),
-  component: Contact,
+  head: () => routeHead("/contact"),
+  component: ContactPage,
 });
 
-type Fields = {
-  name: string;
-  company: string;
-  email: string;
-  phone: string;
-  location: string;
-  capacity: string;
-  message: string;
-};
+type Status = "idle" | "sending" | "sent" | "error";
+type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
-const empty: Fields = {
-  name: "",
-  company: "",
-  email: "",
-  phone: "",
-  location: "",
-  capacity: "",
-  message: "",
-};
+const fieldClass =
+  "mt-2 min-h-[46px] w-full rounded-lg border border-[var(--line-2)] bg-[var(--surface)] px-4 py-3 text-[0.9375rem] text-[var(--text)] outline-none transition-colors focus-visible:border-[var(--blue)]";
 
-const nextSteps = [
-  {
-    number: "01",
-    title: "We read the requirement",
-    body: "Site location, capacity and terrain tell us which configuration applies — 2P-HSAT or 1P.",
-  },
-  {
-    number: "02",
-    title: "An engineer replies",
-    body: "You get a direct answer on tracking range, foundations and layout, not a sales sequence.",
-  },
-  {
-    number: "03",
-    title: "We size the layout",
-    body: "Row count, pile count and ground coverage are worked through against your plot.",
-  },
-];
+function Label({ htmlFor, children, required }: { htmlFor: string; children: string; required?: boolean }) {
+  return (
+    <label htmlFor={htmlFor} className="mono-label text-[var(--text-2)]">
+      {children}
+      {required ? <span className="text-cyan"> *</span> : null}
+    </label>
+  );
+}
 
-function Contact() {
-  const [values, setValues] = useState<Fields>(empty);
-  const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
-  const [sent, setSent] = useState(false);
+function ContactPage() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [errors, setErrors] = useState<Errors>({});
 
-  function validate(v: Fields) {
-    const e: Partial<Record<keyof Fields, string>> = {};
-    if (!v.name.trim()) e.name = "Please enter your name.";
-    if (!v.email.trim()) e.email = "Please enter your email address.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) e.email = "Enter a valid email address.";
-    if (!v.message.trim()) e.message = "Please tell us about your project.";
-    return e;
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    if (String(data.get("website") ?? "").length > 0) return; // honeypot
+
+    const get = (key: string) => String(data.get(key) ?? "").trim();
+    const next: Errors = {};
+    if (!get("name")) next.name = "Please enter your name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email")))
+      next.email = "Please enter a valid work email address.";
+    if (!get("message")) next.message = "Please describe your enquiry.";
+    setErrors(next);
+    if (Object.keys(next).length > 0) return;
+
+    const lines = [
+      `Name: ${get("name")}`,
+      `Company: ${get("company")}`,
+      `Work email: ${get("email")}`,
+      `Phone: ${get("phone")}`,
+      `Project location: ${get("location")}`,
+      `Estimated capacity (MW): ${get("capacity")}`,
+      `Requirement: ${get("requirement")}`,
+      "",
+      get("message"),
+    ].join("\n");
+
+    if (ENDPOINT.includes("YOUR_FORM_ID")) {
+      window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(
+        `Enquiry from ${get("name")}`,
+      )}&body=${encodeURIComponent(lines)}`;
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      if (!response.ok) throw new Error("Request failed");
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   }
-
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    const found = validate(values);
-    setErrors(found);
-    if (Object.keys(found).length > 0) return;
-    // NOTE: This is a static form. Wire this handler to a real endpoint
-    // (server function, CRM or email service) before going live — nothing is
-    // sent anywhere today and no network request is performed.
-    setSent(true);
-  }
-
-  const set = (k: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setValues((v) => ({ ...v, [k]: e.target.value }));
 
   return (
     <>
-      <PageHeader
-        breadcrumb="Contact"
-        eyebrow="Get in touch"
-        title={cta.heading}
-        lede={cta.body}
-      />
+      <section className="container-g py-16 lg:py-24">
+        <Reveal className="max-w-3xl">
+          <Eyebrow className="mb-6">{contactPage.eyebrow}</Eyebrow>
+          <h1>{contactPage.heading}</h1>
+          <p className="lede mt-7">{contactPage.lede}</p>
+        </Reveal>
+      </section>
 
-      <section className="container-g grid gap-12 py-20 md:py-28 lg:grid-cols-[1.15fr_0.85fr]">
-        <Reveal>
-          {sent ? (
-            <div
-              role="status"
-              className="flex flex-col items-start gap-4 rounded-[2rem] border border-[var(--line-blue)] bg-[var(--bg-elev)] p-10"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--line-blue)]">
-                <Check size={20} className="text-cyan" aria-hidden="true" />
-              </span>
-              <h2 className="font-display text-2xl">Enquiry received.</h2>
-              <p className="lede">
-                Thank you — our engineering team will review your requirements and get back to
-                you. For anything urgent, call {contact.phones[0]}.
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g grid gap-14 lg:grid-cols-[0.85fr_1.15fr]">
+          <Reveal>
+            <h2 className="text-[1.5rem]">Direct contact</h2>
+            <ul className="mt-8">
+              {contactRows.map((row) => (
+                <li
+                  key={`${row.label}-${row.value}`}
+                  className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line)] py-4 first:border-t"
+                >
+                  <span className="mono-label text-[var(--text-3)]">{row.label}</span>
+                  <a
+                    href={row.href}
+                    {...(row.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                    className="min-h-11 content-center text-[0.9375rem] text-[var(--text)] hover:text-cyan"
+                  >
+                    {row.value}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal index={1}>
+            <h2 className="text-[1.5rem]">{contactPage.formHeading}</h2>
+            <form onSubmit={onSubmit} noValidate className="mt-8 grid gap-6 sm:grid-cols-2">
+              <p className="hidden" aria-hidden="true">
+                <label htmlFor="website">Leave this field empty</label>
+                <input id="website" name="website" tabIndex={-1} autoComplete="off" />
               </p>
-              <GButton variant="ghost" onClick={() => { setSent(false); setValues(empty); }}>
-                Send another enquiry
-              </GButton>
-            </div>
-          ) : (
-            <form noValidate onSubmit={onSubmit} className="flex flex-col gap-6">
-              <div className="grid gap-6 sm:grid-cols-2">
-                <Field id="name" label="Name" required value={values.name} onChange={set("name")} error={errors.name} />
-                <Field id="company" label="Company" value={values.company} onChange={set("company")} />
-                <Field id="email" label="Email" type="email" required value={values.email} onChange={set("email")} error={errors.email} />
-                <Field id="phone" label="Phone" type="tel" value={values.phone} onChange={set("phone")} />
-                <Field id="location" label="Project Location" value={values.location} onChange={set("location")} />
-                <Field id="capacity" label="Estimated Capacity (MW)" value={values.capacity} onChange={set("capacity")} />
+
+              <div>
+                <Label htmlFor="name" required>Name</Label>
+                <input
+                  id="name"
+                  name="name"
+                  autoComplete="name"
+                  aria-invalid={errors.name ? true : undefined}
+                  aria-describedby={errors.name ? "name-error" : undefined}
+                  className={fieldClass}
+                />
+                {errors.name ? (
+                  <p id="name-error" className="mt-2 text-[0.8125rem] text-cyan">{errors.name}</p>
+                ) : null}
               </div>
 
-              <Field
-                id="message"
-                label="Message"
-                required
-                textarea
-                value={values.message}
-                onChange={set("message")}
-                error={errors.message}
-              />
+              <div>
+                <Label htmlFor="company">Company</Label>
+                <input id="company" name="company" autoComplete="organization" className={fieldClass} />
+              </div>
 
-              <GButton type="submit" className="w-fit">
-                Send enquiry
-                <ArrowRight size={15} aria-hidden="true" />
-              </GButton>
+              <div>
+                <Label htmlFor="email" required>Work email</Label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  aria-invalid={errors.email ? true : undefined}
+                  aria-describedby={errors.email ? "email-error" : undefined}
+                  className={fieldClass}
+                />
+                {errors.email ? (
+                  <p id="email-error" className="mt-2 text-[0.8125rem] text-cyan">{errors.email}</p>
+                ) : null}
+              </div>
+
+              <div>
+                <Label htmlFor="phone">Phone</Label>
+                <input id="phone" name="phone" type="tel" autoComplete="tel" className={fieldClass} />
+              </div>
+
+              <div>
+                <Label htmlFor="location">Project location</Label>
+                <input id="location" name="location" className={fieldClass} />
+              </div>
+
+              <div>
+                <Label htmlFor="capacity">Estimated capacity (MW)</Label>
+                <input id="capacity" name="capacity" inputMode="decimal" className={fieldClass} />
+              </div>
+
+              <div className="sm:col-span-2">
+                <Label htmlFor="requirement">Requirement</Label>
+                <select id="requirement" name="requirement" className={fieldClass} defaultValue={contactPage.requirements[0]}>
+                  {contactPage.requirements.map((option) => (
+                    <option key={option} value={option} className="bg-[var(--bg-elev)]">
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="sm:col-span-2">
+                <Label htmlFor="message" required>Message</Label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  aria-invalid={errors.message ? true : undefined}
+                  aria-describedby={errors.message ? "message-error" : undefined}
+                  className={fieldClass}
+                />
+                {errors.message ? (
+                  <p id="message-error" className="mt-2 text-[0.8125rem] text-cyan">{errors.message}</p>
+                ) : null}
+              </div>
+
+              <div className="sm:col-span-2">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="inline-flex min-h-11 items-center rounded-full bg-[var(--blue)] px-7 font-medium text-white transition-transform duration-[180ms] hover:-translate-y-px hover:bg-[var(--blue-600)] disabled:opacity-60"
+                >
+                  {status === "sending" ? "Sending…" : "Send Enquiry →"}
+                </button>
+
+                <p aria-live="polite" className="mt-4 text-[0.9375rem]">
+                  {status === "sent" ? "Thank you. Your enquiry has been sent." : null}
+                  {status === "error" ? (
+                    <span>
+                      The enquiry could not be sent. Please email{" "}
+                      <a href={`mailto:${contact.email}`} className="text-cyan underline">
+                        {contact.email}
+                      </a>
+                      .
+                    </span>
+                  ) : null}
+                </p>
+              </div>
             </form>
-          )}
-        </Reveal>
-
-        <Reveal delay={80} className="flex flex-col gap-4">
-          {contact.phones.map((p, i) => (
-            <ContactCard
-              key={p}
-              href={`tel:${contact.phoneHrefs[i]}`}
-              label={`Phone ${i + 1}`}
-              value={p}
-              Icon={Phone}
-            />
-          ))}
-          <ContactCard href={`mailto:${contact.email}`} label="Email" value={contact.email} Icon={Mail} />
-          <ContactCard href={contact.websiteHref} label="Website" value={contact.website} Icon={Globe} />
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
-
-      <section className="container-g pb-20 md:pb-28">
-        <SectionHead eyebrow="What happens next" title="Three steps, no sales funnel." />
-        <ol className="mt-10 grid gap-4 md:grid-cols-3">
-          {nextSteps.map((s, i) => (
-            <Reveal as="li" key={s.number} delay={i * 60}>
-              <div className="h-full rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6">
-                <p className="font-mono text-xs text-cyan">{s.number}</p>
-                <h3 className="mt-4 font-display text-lg">{s.title}</h3>
-                <p className="mt-2 text-sm">{s.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
-      </section>
-
-      <CtaBand />
     </>
-  );
-}
-
-function Field({
-  id,
-  label,
-  value,
-  onChange,
-  error,
-  required,
-  type = "text",
-  textarea,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  error?: string | undefined;
-  required?: boolean | undefined;
-  type?: string | undefined;
-  textarea?: boolean | undefined;
-}) {
-  const cls = cn(
-    "w-full rounded-xl border bg-[var(--surface)] px-4 py-3 text-sm text-text placeholder:text-[var(--text-3)] transition-colors duration-200",
-    error ? "border-destructive" : "border-[var(--line-2)] focus:border-[var(--line-blue)]",
-  );
-
-  return (
-    <div className={cn("flex flex-col gap-2", textarea && "col-span-full")}>
-      <label htmlFor={id} className="text-sm text-[var(--text-2)]">
-        {label}
-        {required ? <span className="ml-1 text-cyan">*</span> : null}
-      </label>
-      {textarea ? (
-        <textarea
-          id={id}
-          rows={5}
-          value={value}
-          onChange={onChange}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : undefined}
-          className={cls}
-        />
-      ) : (
-        <input
-          id={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : undefined}
-          className={cn(cls, "min-h-[46px]")}
-        />
-      )}
-      {error ? (
-        <p id={`${id}-error`} className="text-sm text-destructive">
-          {error}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-function ContactCard({
-  href,
-  label,
-  value,
-  Icon,
-}: {
-  href: string;
-  label: string;
-  value: string;
-  Icon: typeof Phone;
-}) {
-  return (
-    <a
-      href={href}
-      className="flex cursor-pointer items-center gap-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-6 py-5 transition-colors duration-200 hover:border-[var(--line-blue)]"
-    >
-      <Icon size={18} className="shrink-0 text-cyan" aria-hidden="true" />
-      <span className="flex min-w-0 flex-col">
-        <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[var(--text-3)]">
-          {label}
-        </span>
-        <span className="truncate text-text">{value}</span>
-      </span>
-    </a>
   );
 }

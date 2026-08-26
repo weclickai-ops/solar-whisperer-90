@@ -1,109 +1,105 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
-import { nav } from "@/data/content";
+
 import { Logo } from "./Logo";
+import { nav } from "@/data/content";
+import { cn } from "@/lib/utils";
 
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => setOpen(false), [pathname]);
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
   return (
     <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 h-20 transition-[background-color,backdrop-filter,border-color] duration-300",
-        scrolled
-          ? "border-b border-[var(--line)] bg-[rgba(5,10,22,0.72)] backdrop-blur-[20px]"
-          : "border-b border-transparent bg-linear-to-b from-[rgba(5,10,22,0.75)] to-transparent",
-      )}
+      className="sticky top-0 z-50 border-b border-[var(--line)]"
+      style={{ background: "rgba(4,6,12,.72)", backdropFilter: "blur(20px)" }}
     >
-      <div className="container-g flex h-20 items-center justify-between gap-4">
-        <Link to="/" aria-label="Glarenergy home" className="cursor-pointer">
+      <div className="container-g flex h-20 items-center justify-between gap-6">
+        <Link to="/" aria-label="Glarenergy — home" className="shrink-0">
           <Logo />
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/" }}
-              className="cursor-pointer text-sm text-[var(--text-2)] transition-colors duration-200 hover:text-text"
-              activeProps={{ className: "text-white font-medium" }}
+              className="text-[0.9375rem] text-[var(--text-2)] transition-colors hover:text-[var(--text)]"
+              activeProps={{ style: { color: "var(--blue)" } }}
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden lg:block">
           <Link
             to="/contact"
-            className="hidden min-h-11 cursor-pointer items-center gap-2 rounded-full bg-blue px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-600 sm:inline-flex"
+            className="inline-flex min-h-11 items-center rounded-full bg-[var(--blue)] px-5 text-[0.9375rem] font-medium text-white transition-transform duration-[180ms] hover:-translate-y-px hover:bg-[var(--blue-600)]"
           >
-            Talk to an Engineer
-            <ArrowRight size={15} aria-hidden="true" />
+            Talk to Our Team →
           </Link>
-          <button
-            type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-2)] text-text lg:hidden"
-          >
-            {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-          </button>
         </div>
+
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((v) => !v)}
+          className="flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--line-2)] lg:hidden"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" role="img" aria-hidden="true">
+            {open ? (
+              <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" strokeWidth="1.5" />
+            ) : (
+              <path d="M2 5h14M2 12h14" stroke="currentColor" strokeWidth="1.5" />
+            )}
+          </svg>
+        </button>
       </div>
 
-      {open ? (
-        <div className="fixed inset-x-0 top-20 bottom-0 z-40 overflow-y-auto border-t border-[var(--line)] bg-[rgba(5,10,22,0.97)] backdrop-blur-[20px] lg:hidden">
-          <nav aria-label="Mobile" className="container-g flex flex-col py-4">
-            {nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              activeProps={{ className: "text-white" }}
-                className="flex min-h-14 cursor-pointer items-center border-b border-[var(--line)] font-display text-2xl text-text"
-              >
-                {item.label}
-              </Link>
-            ))}
+      <div
+        id="mobile-nav"
+        hidden={!open}
+        className={cn(
+          "border-t border-[var(--line)] bg-[var(--bg)] lg:hidden",
+          open ? "block" : "hidden",
+        )}
+      >
+        <nav aria-label="Mobile" className="container-g flex flex-col py-4">
+          {nav.map((item) => (
             <Link
-              to="/contact"
-              className="mt-6 inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-blue px-6 text-sm font-medium text-white"
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              className="flex min-h-[44px] items-center border-b border-[var(--line)] text-[1rem] text-[var(--text-2)]"
+              activeProps={{ style: { color: "var(--blue)" } }}
             >
-              Talk to an Engineer
-              <ArrowRight size={15} aria-hidden="true" />
+              {item.label}
             </Link>
-          </nav>
-        </div>
-      ) : null}
+          ))}
+          <Link
+            to="/contact"
+            className="mt-5 inline-flex min-h-[46px] items-center justify-center rounded-full bg-[var(--blue)] px-5 font-medium text-white"
+          >
+            Talk to Our Team →
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }

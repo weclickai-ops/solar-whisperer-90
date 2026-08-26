@@ -1,98 +1,68 @@
 import { Link } from "@tanstack/react-router";
-import { contact, identity } from "@/data/content";
+
 import { Logo } from "./Logo";
-
-const columns = [
-  {
-    title: "Explore",
-    links: [
-      { label: "Home", to: "/" },
-      { label: "Technology", to: "/technology" },
-      { label: "Product", to: "/product" },
-      { label: "Specifications", to: "/specifications" },
-      { label: "Contact", to: "/contact" },
-    ],
-  },
-];
-
-/*
- * Footer links sit at 17px tall, which is an awkward tap target on a phone.
- * min-h-11 (44px) gives them a comfortable hit area on small screens and is
- * dropped from md up, so the desktop footer keeps its original tight rhythm.
- */
-const footerLink =
-  "inline-flex min-h-11 items-center text-sm text-[var(--text-2)] transition-colors duration-200 hover:text-text cursor-pointer md:min-h-0";
+import { contact, contactRows, identity, nav } from "@/data/content";
 
 export function Footer() {
-  return (
-    <footer className="relative border-t border-[var(--line)] bg-[var(--bg-elev)]">
-      <div className="container-g grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-3">
-        <div className="flex flex-col gap-4">
-          <Link to="/" aria-label="Glarenergy home" className="w-fit cursor-pointer">
-            <Logo />
-          </Link>
-          <p className="font-display text-lg text-text">{identity.tagline}.</p>
-          <p className="max-w-[36ch] text-sm text-[var(--text-3)]">
-            Precision single-axis solar tracking systems engineered for higher yield and
-            plant performance.
-          </p>
-        </div>
+  const year = new Date().getFullYear();
 
-        {columns.map((col) => (
-          <div key={col.title} className="flex flex-col gap-4">
-            <h2 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-3)]">
-              {col.title}
+  return (
+    <footer className="relative z-10 border-t border-[var(--line)] bg-[var(--bg-elev)]">
+      <div className="container-g py-16">
+        <div className="grid gap-12 md:grid-cols-3">
+          <div>
+            <Logo />
+            <p className="mt-4 font-mono text-[0.75rem] uppercase tracking-[0.18em] text-cyan">
+              {identity.tagline}
+            </p>
+            <p className="mt-4 text-[0.9375rem]">{identity.description}</p>
+          </div>
+
+          <div>
+            <h2 className="mono-label text-[var(--text-3)]" style={{ fontSize: "0.75rem" }}>
+              Explore
             </h2>
-            <ul className="flex flex-col gap-1 md:gap-3">
-              {col.links.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className={footerLink}>
-                    {l.label}
+            <ul className="mt-5 space-y-3">
+              {nav.map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className="inline-flex min-h-[28px] items-center text-[0.9375rem] text-[var(--text-2)] transition-colors hover:text-[var(--text)]"
+                  >
+                    {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-        ))}
 
-        <div className="flex flex-col gap-4">
-          <h2 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-3)]">
-            Contact
-          </h2>
-          <ul className="flex flex-col gap-1 md:gap-3">
-            {contact.phones.map((p, i) => (
-              <li key={p}>
-                <a href={`tel:${contact.phoneHrefs[i]}`} className={footerLink}>
-                  {p}
-                </a>
-              </li>
-            ))}
-            <li>
-              <a href={`mailto:${contact.email}`} className={footerLink}>
-                {contact.email}
-              </a>
-            </li>
-            <li>
-              <a
-                href={contact.websiteHref}
-                target="_blank"
-                rel="noreferrer"
-                className={footerLink}
-              >
-                {contact.website}
-              </a>
-            </li>
-          </ul>
+          <div>
+            <h2 className="mono-label text-[var(--text-3)]" style={{ fontSize: "0.75rem" }}>
+              Contact
+            </h2>
+            <ul className="mt-5 space-y-3">
+              {contactRows.map((row) => (
+                <li key={row.href}>
+                  <a
+                    href={row.href}
+                    {...(row.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+                    className="inline-flex min-h-[28px] items-center text-[0.9375rem] text-[var(--text-2)] transition-colors hover:text-[var(--text)]"
+                  >
+                    {row.value}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div className="border-t border-[var(--line)]">
-        <div className="container-g py-6">
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-3)]">
-            © {new Date().getFullYear()} {identity.company}
+        <div className="mt-14 border-t border-[var(--line)] pt-6">
+          <p className="font-mono text-[0.75rem] text-[var(--text-3)]">
+            © {year} {identity.company}. All rights reserved.
           </p>
         </div>
       </div>
+      <span className="sr-only-hp">{contact.website}</span>
     </footer>
   );
 }

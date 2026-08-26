@@ -1,69 +1,148 @@
 import { useEffect, useRef, useState } from "react";
-import { Plus, MessageCircle, Phone, Mail } from "lucide-react";
+
 import { contact } from "@/data/content";
 
-const items = [
+type Pill = { label: string; href: string; external?: boolean; icon: JSX.Element };
+
+const iconProps = {
+  width: 16,
+  height: 16,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "var(--cyan)",
+  strokeWidth: 1.6,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+  focusable: "false" as const,
+};
+
+const pills: Pill[] = [
   {
     label: "WhatsApp",
-    href: `https://wa.me/${contact.whatsapp}`,
-    Icon: MessageCircle,
+    href: contact.whatsapp,
+    external: true,
+    icon: (
+      <svg {...iconProps} role="img">
+        <path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5.3A8.5 8.5 0 1 1 21 11.5Z" />
+      </svg>
+    ),
   },
-  { label: "Call", href: `tel:${contact.phoneHrefs[0]}`, Icon: Phone },
-  { label: "Email", href: `mailto:${contact.email}`, Icon: Mail },
+  {
+    label: "Call",
+    href: "tel:+919502142303",
+    icon: (
+      <svg {...iconProps} role="img">
+        <path d="M22 16.9v2.1a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 3.2 2 2 0 0 1 4 1h2.1a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L7.5 8.6a16 16 0 0 0 6 6l1-1a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Email",
+    href: `mailto:${contact.email}`,
+    icon: (
+      <svg {...iconProps} role="img">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m2 7 10 6 10-6" />
+      </svg>
+    ),
+  },
 ];
 
 export function ContactDock() {
   const [open, setOpen] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const graceRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const threshold = Math.min(520, window.innerHeight * 0.6);
+    const onScroll = () => setShown(window.scrollY > threshold);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    const onClick = (e: MouseEvent) => {
-      if (root.current && !root.current.contains(e.target as Node)) setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     };
-    window.addEventListener("keydown", onKey);
-    window.addEventListener("mousedown", onClick);
+    const onClick = (e: MouseEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
     return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
     };
   }, [open]);
 
+  const cancelGrace = () => {
+    if (graceRef.current) {
+      window.clearTimeout(graceRef.current);
+      graceRef.current = null;
+    }
+  };
+
   return (
-    <div ref={root} className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-2 sm:right-6 sm:bottom-6">
+    <div
+      ref={wrapRef}
+      className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2 transition-opacity duration-300"
+      style={{ opacity: shown ? 1 : 0, pointerEvents: shown ? "auto" : "none" }}
+      onMouseEnter={() => {
+        cancelGrace();
+        setOpen(true);
+      }}
+      onMouseLeave={() => {
+        cancelGrace();
+        graceRef.current = window.setTimeout(() => setOpen(false), 260);
+      }}
+    >
       {open
-        ? items.map(({ label, href, Icon }, i) => (
+        ? pills.map((pill, i) => (
             <a
-              key={label}
-              href={href}
-              target={label === "WhatsApp" ? "_blank" : undefined}
-              rel={label === "WhatsApp" ? "noreferrer" : undefined}
-              className="inline-flex min-h-11 cursor-pointer items-center gap-2.5 rounded-full border border-[var(--line-2)] bg-[rgba(5,10,22,0.82)] px-4 text-sm text-text backdrop-blur-md transition-colors duration-200 hover:border-[var(--line-blue)]"
+              key={pill.label}
+              href={pill.href}
+              {...(pill.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+              className="reveal is-visible inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line-2)] px-4 text-[0.875rem] text-[var(--text)] transition-colors hover:border-[var(--line-blue)]"
               style={{
-                animation: `g-line-rise 260ms cubic-bezier(.16,1,.3,1) ${i * 45}ms both`,
+                background: "rgba(7,13,24,.86)",
+                backdropFilter: "blur(14px)",
+                ["--reveal-delay" as string]: `${40 + i * 40}ms`,
               }}
             >
-              <Icon size={16} className="text-cyan" aria-hidden="true" />
-              {label}
+              {pill.icon}
+              {pill.label}
             </a>
           ))
         : null}
 
       <button
+        ref={triggerRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-label={open ? "Close contact options" : "Open contact options"}
-        className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-[var(--line-blue)] bg-[rgba(5,10,22,0.82)] px-4 text-sm font-medium text-text backdrop-blur-md transition-colors duration-200 hover:bg-[rgba(0,127,255,0.14)]"
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--blue)] px-5 text-[0.9375rem] font-medium text-white transition-colors hover:bg-[var(--blue-600)]"
       >
         Contact
-        <Plus
-          size={16}
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          role="img"
           aria-hidden="true"
-          className="text-cyan transition-transform duration-200"
+          className="transition-transform duration-200"
           style={{ transform: open ? "rotate(45deg)" : "none" }}
-        />
+        >
+          <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
       </button>
     </div>
   );

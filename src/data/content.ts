@@ -365,11 +365,3 @@ export const whyCards: Feature[] = [
     description: "Built to work with EPCs, developers and project owners from design through deployment.",
   },
 ];
-
-/* ------------------------------------------------------------------ */
-/* Projects — no verified project data yet.                            */
-/* CONTENT REQUIRED FROM GLARENERGY: project name, location, capacity, */
-/* technology, application, challenge, solution, measured results.     */
-/* Until supplied, the Projects page shows the case-study framework    */
-/* marked "coming soon" rather than fictional numbers.                 */
-/* ------------------------------------------------------------------ */

@@ -152,7 +152,7 @@ function ProductPage() {
         <SpecSheet id="design" title="Design Specification" rows={designSpecs} />
         <Reveal delay={80}>
           <Link
-            to="/specs"
+            to="/specifications"
             className="mt-8 inline-flex cursor-pointer items-center gap-2 border-b border-[var(--line-blue)] pb-1 text-sm text-cyan transition-colors duration-200 hover:text-text"
           >
             View the full datasheet

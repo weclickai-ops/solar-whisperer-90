@@ -67,7 +67,7 @@ export function ProductShowcase({ showLink = true }: { showLink?: boolean }) {
 
           {showLink ? (
             <Link
-              to="/specs"
+              to="/specifications"
               className="inline-flex w-fit cursor-pointer items-center gap-2 border-b border-[var(--line-blue)] pb-1 text-sm text-cyan transition-colors duration-200 hover:text-text"
             >
               View full specifications

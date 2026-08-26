@@ -6,7 +6,7 @@ import { SpecSheet } from "@/components/sections/SpecSheet";
 import { CtaBand } from "@/components/g/CtaBand";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/specs")({
+export const Route = createFileRoute("/specifications")({
   head: () => ({
     meta: [
       { title: "Tracker Datasheet & Specifications — Glarenergy" },

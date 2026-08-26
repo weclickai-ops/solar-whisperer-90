@@ -1,309 +1,204 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
-import {
-  engineeringItems,
-  heroSpecRail,
-  identity,
-  performanceStrip,
-  trackingSteps,
-  whyGlarenergy,
-} from "@/data/content";
+
 import { Eyebrow } from "@/components/g/Eyebrow";
+import { GButtonLink } from "@/components/g/GButton";
+import { GCard, GCardBody, GCardTitle } from "@/components/g/Card";
+import { CtaBand } from "@/components/g/CtaBand";
+import { Placeholder } from "@/components/g/Placeholder";
 import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
-import { GLinkButton } from "@/components/g/GButton";
-import { GCard } from "@/components/g/GCard";
-import { CtaBand } from "@/components/g/CtaBand";
-import { Plate } from "@/components/g/Plate";
-import { HeroScene } from "@/components/svg/HeroScene";
-import { SunTrackDiagram } from "@/components/svg/SunTrackDiagram";
-import { TerrainProfile } from "@/components/svg/TerrainProfile";
-import { EnergyCurve } from "@/components/svg/EnergyCurve";
-import { ProductShowcase } from "@/components/sections/ProductShowcase";
-import { ConfigComparator } from "@/components/sections/ConfigComparator";
-import { TechIcon } from "@/components/svg/TechIcon";
+import { SpecTable } from "@/components/g/SpecTable";
+import { HeroArray } from "@/components/svg/HeroArray";
+import { RowCloseup } from "@/components/svg/RowCloseup";
+import { ctas, home } from "@/data/content";
+import { routeHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Glarenergy — Precision Solar Tracking Technology" },
-      {
-        name: "description",
-        content:
-          "Single-axis solar trackers engineered for 15–25% more yield, 180 km/h wind survival and ±2° tracking accuracy.",
-      },
-      { property: "og:title", content: "Glarenergy — Precision Solar Tracking Technology" },
-      {
-        property: "og:description",
-        content:
-          "Single-axis solar trackers engineered for 15–25% more yield, 180 km/h wind survival and ±2° tracking accuracy.",
-      },
-    ],
-  }),
-  component: Home,
+  head: () => routeHead("/"),
+  component: HomePage,
 });
 
-const HERO_LINES = ["Solar tracking,", "engineered for", "maximum yield."];
-
-function Home() {
+function HomePage() {
   return (
     <>
-      {/* 1 — HERO */}
-      <section className="container-g grid min-h-[100svh] items-center gap-14 pt-32 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:pt-28">
-        <div className="flex flex-col gap-8">
-          <Eyebrow>Precision Solar Tracking Technology</Eyebrow>
+      {/* Hero */}
+      <section className="relative">
+        <div className="container-g grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
+          <Reveal>
+            <Eyebrow className="mb-6">{home.eyebrow}</Eyebrow>
+            <h1>
+              {home.headingLine1}
+              <br />
+              <span className="text-cyan">{home.headingLine2}</span>
+            </h1>
+            <p className="lede mt-7">{home.lede}</p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <GButtonLink to="/technology">Explore Our Technology →</GButtonLink>
+              <GButtonLink to="/contact" variant="ghost">
+                Talk to Our Team
+              </GButtonLink>
+            </div>
+          </Reveal>
 
-          <h1>
-            {HERO_LINES.map((line, i) => (
-              <span key={line} className="block overflow-hidden">
-                <span
-                  className="block animate-line-rise"
-                  style={{ animationDelay: `${i * 120}ms` }}
+          <Reveal index={1} className="relative">
+            <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--bg-elev)]">
+              <HeroArray />
+            </div>
+            <ul className="absolute bottom-4 left-4 space-y-2">
+              {home.telemetry.map((chip) => (
+                <li
+                  key={chip.label}
+                  className="rounded-md border px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--text-2)]"
+                  style={{
+                    borderColor: "var(--line-blue)",
+                    background: "rgba(4,6,12,.7)",
+                    backdropFilter: "blur(10px)",
+                  }}
                 >
-                  {i === HERO_LINES.length - 1 ? (
-                    <span className="text-gradient-cyan">{line}</span>
-                  ) : (
-                    line
-                  )}
-                </span>
-              </span>
-            ))}
-          </h1>
-
-          <p className="lede">
-            Glarenergy builds precision single-axis trackers that squeeze every usable hour
-            out of the sun.
-          </p>
-
-          <div className="flex flex-wrap gap-3">
-            <GLinkButton to="/contact">
-              Talk to an Engineer
-              <ArrowRight size={15} aria-hidden="true" />
-            </GLinkButton>
-            <GLinkButton to="/technology" variant="ghost">
-              Explore the Technology
-            </GLinkButton>
-          </div>
-
-          <dl className="mt-2 grid grid-cols-2 border-t border-[var(--line)] pt-6 sm:grid-cols-4">
-            {heroSpecRail.map((s, i) => (
-              <div
-                key={s.label}
-                className={`flex flex-col gap-1 px-4 py-2 first:pl-0 ${
-                  i > 0 ? "sm:border-l sm:border-[var(--line)]" : ""
-                }`}
-              >
-                <dt className="sr-only">{s.label}</dt>
-                <dd className="font-display text-2xl leading-none text-text md:text-[1.75rem]">
-                  {s.value}
-                </dd>
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[var(--text-3)]">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        {/* Plate: hero-array.jpg — rows of trackers at low sun, wide landscape */}
-        <div className="relative">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 -inset-y-8 -z-10 overflow-hidden rounded-[2rem]"
-          >
-            <img
-              src="/images/hero-array.jpg"
-              alt=""
-              width={1920}
-              height={1280}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="plate-media h-full w-full object-cover opacity-55"
-              style={{
-                maskImage:
-                  "radial-gradient(120% 100% at 70% 50%, #000 30%, transparent 78%)",
-                WebkitMaskImage:
-                  "radial-gradient(120% 100% at 70% 50%, #000 30%, transparent 78%)",
-              }}
-            />
-            <div
-              className="absolute inset-0 mix-blend-overlay"
-              style={{ background: "linear-gradient(rgba(0,127,255,0.14), rgba(5,10,22,0.55))" }}
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to right, rgba(5,10,22,0.96) 0%, rgba(5,10,22,0.7) 45%, rgba(5,10,22,0.35) 100%)",
-              }}
-            />
-          </div>
-          <HeroScene />
-        </div>
-      </section>
-
-
-
-      {/* 3 — PERFORMANCE STRIP */}
-      <section className="container-g py-20 md:py-24" aria-label="Performance figures">
-        <Reveal>
-          <dl className="grid divide-y divide-[var(--line)] rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface)] sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-5">
-            {performanceStrip.map((s, i) => (
-              <div
-                key={s.label}
-                className={`flex flex-col gap-2 p-6 ${
-                  i > 0 ? "lg:border-l lg:border-[var(--line)]" : ""
-                } ${i % 2 === 1 ? "sm:border-l sm:border-[var(--line)] lg:border-l" : ""}`}
-              >
-                <dt className="sr-only">{s.label}</dt>
-                <dd className="font-display text-3xl leading-none text-text">
-                  {s.value}
-                </dd>
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[var(--text-3)]">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
-      </section>
-
-      {/* 4 — WHY TRACK THE SUN */}
-      <section className="container-g py-20 md:py-28">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-          <SectionHead
-            eyebrow="The Fundamentals"
-            title="The sun moves. Your panels should too."
-            lede="A tracker turns through the day so the modules keep facing the sun, capturing more of the available irradiance than a panel locked in one position."
-          />
-          <Reveal delay={80}>
-            <SunTrackDiagram />
+                  {chip.label} · <span className="text-cyan">{chip.value}</span>
+                </li>
+              ))}
+            </ul>
           </Reveal>
         </div>
       </section>
 
-      {/* 5 — PRODUCT SHOWCASE */}
-      <ProductShowcase />
-
-      {/* 6 — CONFIGURATION COMPARISON */}
-      <ConfigComparator />
-
-      {/* 7 — ENGINEERING */}
-      <section className="container-g py-20 md:py-28">
-        <SectionHead
-          eyebrow="Engineering"
-          title="Engineered for real-world solar farms."
-        />
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Plate: actuator-detail.jpg — macro of the drive / actuator assembly */}
-          <Reveal className="sm:col-span-2 sm:row-span-2">
-            <Plate
-              src="/images/actuator-detail.jpg"
-              alt="Close-up of a solar tracker single-point linear actuator and drive assembly"
-              width={1200}
-              height={900}
-              fade="none"
-              className="h-full"
-              overlay={
-                <figcaption className="absolute inset-x-0 bottom-0 p-6 font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-2)]">
-                  Single-point linear actuator · 24V DC
-                </figcaption>
-              }
-            />
-          </Reveal>
-          {engineeringItems.map((item, i) => (
-            <Reveal key={item.title} delay={i * 50}>
-              <GCard className="h-full">
-                <TechIcon name={item.title} />
-                <h3 className="mt-5 font-display text-lg">{item.title}</h3>
-                <p className="mt-2 text-sm">{item.description}</p>
-              </GCard>
+      {/* Spec rail */}
+      <section aria-label="Headline performance figures" className="border-y border-[var(--line)]">
+        <div className="container-g grid grid-cols-2 lg:grid-cols-4">
+          {home.specRail.map((cell, i) => (
+            <Reveal
+              key={cell.label}
+              index={i}
+              className="border-[var(--line)] px-2 py-8 sm:px-6 [&:nth-child(n+3)]:border-t lg:[&:nth-child(n+3)]:border-t-0 [&:nth-child(even)]:border-l lg:[&:nth-child(n+2)]:border-l"
+            >
+              <p className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-none tracking-[-0.025em] text-[var(--text)]">
+                {cell.value}
+              </p>
+              <p className="mono-label mt-3 text-[var(--text-3)]">{cell.label}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* 8 — TERRAIN */}
-      <section className="container-g py-20 md:py-28">
-        <SectionHead
-          eyebrow="Terrain Adaptability"
-          title="Built for more than perfect terrain."
-          lede="Trackers install along undulating ground with 10% north–south and 10% east–west slope tolerance, rotating ±45° to ±60° and returning to 0° stow in extreme wind."
-        />
-        {/* Plate: terrain-site.jpg — trackers on sloped, undulating ground (behind the diagram) */}
-        <div className="relative mt-12 overflow-hidden rounded-[1.5rem]">
-          <img
-            src="/images/terrain-site.jpg"
-            alt=""
-            width={1920}
-            height={1080}
-            loading="lazy"
-            decoding="async"
-            aria-hidden="true"
-            className="plate-media pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+      {/* What is Glarenergy */}
+      <section className="section-g">
+        <div className="container-g grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <Eyebrow className="mb-5">About Glarenergy</Eyebrow>
+            <h2>{home.intro.heading}</h2>
+          </Reveal>
+          <Reveal index={1}>
+            <p className="text-[1.0625rem]">{home.intro.body}</p>
+            <div className="mt-8">
+              <GButtonLink to="/technology" variant="ghost">
+                {home.intro.cta}
+              </GButtonLink>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Technology teaser */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
+          <SectionHead
+            eyebrow={home.technologyTeaser.eyebrow}
+            heading={home.technologyTeaser.heading}
+            lede={home.technologyTeaser.lede}
           />
-          <div className="relative">
-          <TerrainProfile />
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {home.technologyTeaser.cards.map((card, i) => (
+              <Reveal key={card.title} index={i}>
+                <GCard className="h-full">
+                  <GCardTitle>{card.title}</GCardTitle>
+                  <GCardBody>{card.description}</GCardBody>
+                </GCard>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-10">
+            <GButtonLink to="/technology">{home.technologyTeaser.cta}</GButtonLink>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* In the field */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
+          <SectionHead
+            eyebrow={home.field.eyebrow}
+            heading={home.field.heading}
+            lede={home.field.body}
+          />
+          <div className="mt-12 grid gap-5 lg:grid-cols-[1.7fr_1fr]">
+            <Reveal className="overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--bg-elev)]">
+              <RowCloseup />
+            </Reveal>
+            <div className="grid gap-5">
+              {home.field.placeholders.map((item, i) => (
+                <Reveal key={item.label} index={i + 1}>
+                  <Placeholder label={item.label} dimensions={item.dimensions} ratio="16 / 10" />
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 9 — HOW GLARENERGY TRACKS THE SUN */}
-      <section className="container-g py-20 md:py-28">
-        <SectionHead eyebrow="Process" title="How Glarenergy tracks the sun." />
-        <ol className="mt-12 border-t border-[var(--line)]">
-          {trackingSteps.map((step, i) => (
-            <Reveal as="li" key={step.number} delay={i * 60}>
-              <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-6 border-b border-[var(--line)] px-2 py-7 transition-colors duration-200 hover:bg-[rgba(0,127,255,0.05)] md:grid-cols-[auto_16rem_minmax(0,1fr)] md:items-baseline">
-                <span className="font-mono text-xs text-cyan">{step.number}</span>
-                <h3 className="font-display text-xl">{step.title}</h3>
-                <p className="col-span-2 text-sm md:col-span-1">{step.description}</p>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
-      </section>
-
-      {/* 10 — ENERGY GAIN */}
-      <section className="container-g py-20 md:py-28">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      {/* Product teaser */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
           <SectionHead
-            eyebrow="Energy Gain"
-            title="A broader generation curve."
-            lede="A fixed-tilt array peaks briefly at midday. A tracked array holds a productive angle from morning through afternoon — the shaded delta is the additional yield."
+            eyebrow={home.productTeaser.eyebrow}
+            heading={home.productTeaser.heading}
           />
-          <Reveal delay={80}>
-            <EnergyCurve />
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {home.productTeaser.cards.map((card, i) => (
+              <Reveal key={card.title} index={i}>
+                <GCard className="h-full">
+                  <GCardTitle>{card.title}</GCardTitle>
+                  <GCardBody>{card.description}</GCardBody>
+                </GCard>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-10">
+            <GButtonLink to="/product" variant="ghost">
+              {home.productTeaser.cta}
+            </GButtonLink>
           </Reveal>
         </div>
       </section>
 
-      {/* 11 — WHY GLARENERGY */}
-      <section className="container-g py-20 md:py-28">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <Reveal className="flex flex-col justify-between gap-8 rounded-[2rem] border border-[var(--line-blue)] bg-[var(--bg-elev)] p-8 md:p-12">
-            <Eyebrow>Why Glarenergy</Eyebrow>
-            <h2 className="max-w-[14ch] text-balance">
-              Precision is the <span className="text-gradient-cyan">product</span>.
-            </h2>
-            <p className="lede">{identity.positioning}</p>
-          </Reveal>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            {whyGlarenergy.map((item, i) => (
-              <Reveal key={item} delay={i * 40}>
-                <div className="flex h-full items-center rounded-2xl border border-[var(--line)] px-5 py-4 text-sm text-[var(--text-2)] transition-colors duration-200 hover:border-[var(--line-blue)] hover:text-text">
-                  {item}
-                </div>
+      {/* Why Glarenergy */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
+          <SectionHead eyebrow={home.why.eyebrow} heading={home.why.heading} />
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {home.why.cards.map((card, i) => (
+              <Reveal key={card.title} index={i}>
+                <GCard className="h-full">
+                  <GCardTitle>{card.title}</GCardTitle>
+                  <GCardBody>{card.description}</GCardBody>
+                </GCard>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 12 — CTA */}
-      <CtaBand />
+      {/* Mission and vision */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g max-w-3xl">
+          <SectionHead eyebrow="Direction" heading="Mission and vision." />
+          <Reveal className="mt-10">
+            <SpecTable rows={home.missionVision} />
+          </Reveal>
+        </div>
+      </section>
+
+      <CtaBand {...ctas.home} />
     </>
   );
 }

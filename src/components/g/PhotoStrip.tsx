@@ -1,4 +1,4 @@
-import { Placeholder } from "./Placeholder";
+import { FacilityScene } from "@/components/svg/FacilityScene";
 
 export type StripItem = {
   /** What the photograph shows — also the alt text once `src` is supplied. */
@@ -12,10 +12,11 @@ export type StripItem = {
  * A row of photographs scrolling sideways on its own. The list is rendered
  * twice and the track travels exactly half its width, so the loop is seamless.
  *
- * Slots without a `src` fall back to the dashed Placeholder, which lets the
- * section ship before Glarenergy has supplied photography. Hovering or
- * focusing pauses the travel; under prefers-reduced-motion the animation is
- * dropped and the row becomes an ordinary horizontal scroller.
+ * A slot with no `src` falls back to a drawn scene, or to the dashed
+ * Placeholder if no scene exists for that label — so the strip is complete
+ * before Glarenergy has supplied photography. Hovering or focusing pauses the
+ * travel; under prefers-reduced-motion the animation is dropped and the row
+ * becomes an ordinary horizontal scroller.
  */
 export function PhotoStrip({
   items,
@@ -49,7 +50,9 @@ export function PhotoStrip({
                   className="h-full w-full rounded-xl border border-[var(--line)] object-cover"
                 />
               ) : (
-                <Placeholder label={item.label} dimensions={item.dimensions} ratio="4 / 3" />
+                <div style={{ aspectRatio: "4 / 3" }}>
+                  <FacilityScene name={item.label} dimensions={item.dimensions} />
+                </div>
               )}
             </li>
           );

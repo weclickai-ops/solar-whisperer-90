@@ -5,13 +5,13 @@ import { Eyebrow } from "@/components/g/Eyebrow";
 import { GButtonLink } from "@/components/g/GButton";
 import { GCard, GCardBody, GCardTitle } from "@/components/g/Card";
 import { CtaBand } from "@/components/g/CtaBand";
-import { Placeholder } from "@/components/g/Placeholder";
 import { PhotoStrip } from "@/components/g/PhotoStrip";
 import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
 import { SpecTable } from "@/components/g/SpecTable";
 import { Cutaway } from "@/components/svg/Cutaway";
 import { FeatureIcon } from "@/components/svg/FeatureIcon";
+import { RowCloseup } from "@/components/svg/RowCloseup";
 import { YieldCurve } from "@/components/svg/YieldCurve";
 import {
   contactPage,
@@ -240,11 +240,11 @@ function ProductPage() {
             heading={productPage.service.heading}
             lede={productPage.service.body}
           />
-          <Reveal index={1}>
-            <Placeholder
-              label={productPage.service.placeholder.label}
-              dimensions={productPage.service.placeholder.dimensions}
-            />
+          <Reveal
+            index={1}
+            className="rounded-xl border border-[var(--line)] bg-[var(--bg-elev)] p-4"
+          >
+            <RowCloseup />
           </Reveal>
         </div>
       </section>

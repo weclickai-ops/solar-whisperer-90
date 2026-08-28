@@ -347,3 +347,61 @@
     padding-block: 0.75rem !important;
   }
 }
+
+/* ------------------------------------------------ SCROLLING PHOTO STRIP */
+
+/*
+ * The track holds the item list twice over and travels exactly half its own
+ * width, so the second copy lands where the first began and the loop is
+ * invisible. Speed comes from --strip-seconds, set per instance.
+ */
+@keyframes strip-travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.photo-strip {
+  overflow: hidden;
+  /* Fades both ends into the page so items do not appear to be cut off. */
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.photo-strip__track {
+  display: flex;
+  width: max-content;
+  animation: strip-travel var(--strip-seconds, 48s) linear infinite;
+}
+
+.photo-strip:hover .photo-strip__track,
+.photo-strip:focus-within .photo-strip__track {
+  animation-play-state: paused;
+}
+
+/*
+ * Spacing is a margin on the item rather than a `gap` on the track. With `gap`,
+ * N items carry N-1 gaps, so travelling -50% lands half a gap short and the
+ * loop jumps; folding the spacing into each item makes the halfway point exact.
+ */
+.photo-strip__item {
+  flex: 0 0 auto;
+  width: min(78vw, 26rem);
+  margin-right: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No travel; the row becomes something the reader scrolls themselves. */
+  .photo-strip {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .photo-strip__track {
+    animation-name: none !important;
+  }
+}

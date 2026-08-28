@@ -2,10 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Eyebrow } from "@/components/g/Eyebrow";
 import { GButtonLink } from "@/components/g/GButton";
-import { GCard, GCardBody, GCardTitle } from "@/components/g/Card";
 import { CtaBand } from "@/components/g/CtaBand";
 import { Reveal } from "@/components/g/Reveal";
-import { SectionHead } from "@/components/g/SectionHead";
 import { HeroArray, WideArray } from "@/components/svg/HeroArray";
 import { ctas, home } from "@/data/content";
 import { routeHead } from "@/lib/seo";
@@ -119,23 +117,6 @@ function HomePage() {
               </GButtonLink>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* Why Glarenergy */}
-      <section className="section-g border-t border-[var(--line)]">
-        <div className="container-g">
-          <SectionHead eyebrow={home.why.eyebrow} heading={home.why.heading} />
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {home.why.cards.map((card, i) => (
-              <Reveal key={card.title} index={i}>
-                <GCard className="h-full">
-                  <GCardTitle>{card.title}</GCardTitle>
-                  <GCardBody>{card.description}</GCardBody>
-                </GCard>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 

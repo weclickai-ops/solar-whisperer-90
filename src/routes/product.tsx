@@ -6,15 +6,18 @@ import { GButtonLink } from "@/components/g/GButton";
 import { GCard, GCardBody, GCardTitle } from "@/components/g/Card";
 import { CtaBand } from "@/components/g/CtaBand";
 import { Placeholder } from "@/components/g/Placeholder";
+import { PhotoStrip } from "@/components/g/PhotoStrip";
 import { Reveal } from "@/components/g/Reveal";
 import { SectionHead } from "@/components/g/SectionHead";
 import { SpecTable } from "@/components/g/SpecTable";
 import { Cutaway } from "@/components/svg/Cutaway";
+import { FeatureIcon } from "@/components/svg/FeatureIcon";
 import { YieldCurve } from "@/components/svg/YieldCurve";
 import {
   contactPage,
   contactRows,
   ctas,
+  home,
   productPage,
   siteUrl,
   specifications,
@@ -173,6 +176,29 @@ function ProductPage() {
         </div>
       </section>
 
+      {/* Design features */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
+          <SectionHead
+            eyebrow="Design features"
+            heading="Built for the conditions a plant actually meets."
+          />
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {home.why.cards.map((card, i) => (
+              <Reveal key={card.title} index={i}>
+                <div className="flex h-full flex-col rounded-xl border border-[var(--line)] bg-[var(--surface)] p-7 transition-[transform,border-color] duration-[220ms] hover:-translate-y-[3px] hover:border-[var(--line-blue)]">
+                  <span className="text-cyan">
+                    <FeatureIcon name={card.title} />
+                  </span>
+                  <h3 className="mt-6 text-[1.0625rem]">{card.title}</h3>
+                  <p className="mt-3 text-[0.9375rem]">{card.description}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Assembly and components */}
       <section className="section-g border-t border-[var(--line)]">
         <div className="container-g">
@@ -191,6 +217,19 @@ function ProductPage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Manufacturing facility */}
+      <section className="section-g border-t border-[var(--line)]">
+        <div className="container-g">
+          <SectionHead
+            eyebrow={productPage.facility.eyebrow}
+            heading={productPage.facility.heading}
+          />
+        </div>
+        <Reveal className="mt-12">
+          <PhotoStrip items={productPage.facility.photos} />
+        </Reveal>
       </section>
 
       {/* In service */}

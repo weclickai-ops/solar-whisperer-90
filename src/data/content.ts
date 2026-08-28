@@ -277,6 +277,22 @@ export const productPage = {
       { title: "Up to 100 modules", description: "Tracker length of 50–100 m." },
     ] satisfies Card[],
   },
+  /*
+   * Manufacturing. The photographs have not been supplied yet, so each slot
+   * carries only what belongs in it; add `src` once the files are in /public
+   * and the dashed frame is replaced by the image.
+   */
+  facility: {
+    eyebrow: "Manufacturing",
+    heading: "Our manufacturing facility.",
+    photos: [
+      { label: "Torque tube fabrication", dimensions: "1600×1200" },
+      { label: "Bearing housing assembly", dimensions: "1600×1200" },
+      { label: "Structural components, finished stock", dimensions: "1600×1200" },
+      { label: "Drive and actuator assembly", dimensions: "1600×1200" },
+      { label: "Galvanised sections before dispatch", dimensions: "1600×1200" },
+    ],
+  },
   service: {
     eyebrow: "In service",
     heading: "The tracker on site.",

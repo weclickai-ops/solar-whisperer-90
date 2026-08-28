@@ -18,8 +18,7 @@ export const identity = {
   description:
     "Glarenergy designs and engineers precision single-axis solar tracking systems for utility-scale solar plants.",
   mission: "Install 1 GW of solar plants equipped with our trackers by 2030.",
-  vision:
-    "Lead as the most innovative and efficient renewable energy technology company.",
+  vision: "Lead as the most innovative and efficient renewable energy technology company.",
 } as const;
 
 export const contact = {
@@ -35,9 +34,8 @@ export const siteUrl = "https://solar-whisperer-90.lovable.app";
 
 export const nav: NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Technology", to: "/technology" },
   { label: "Product", to: "/product" },
-  { label: "Specifications", to: "/specifications" },
+  { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
 
@@ -89,8 +87,7 @@ export const home = {
       },
       {
         title: "Held orientation",
-        description:
-          "The commanded angle is maintained to within ±2° across the operating day.",
+        description: "The commanded angle is maintained to within ±2° across the operating day.",
       },
     ] satisfies Card[],
     cta: "Explore Our Technology →",
@@ -145,8 +142,7 @@ export const home = {
       },
       {
         title: "Bifacial compatibility",
-        description:
-          "Commercial and bifacial modules are both supported on the same platform.",
+        description: "Commercial and bifacial modules are both supported on the same platform.",
       },
       {
         title: "Low maintenance",
@@ -261,14 +257,23 @@ export const productPage = {
     eyebrow: "Assembly and components",
     heading: "What the tracker is made of.",
     cards: [
-      { title: "Single-point linear actuator", description: "One drive point turns the torque tube." },
+      {
+        title: "Single-point linear actuator",
+        description: "One drive point turns the torque tube.",
+      },
       { title: "24V DC motor", description: "Low-voltage motorization at the drive." },
-      { title: "One controller per tracker", description: "Dedicated control hardware on every row." },
+      {
+        title: "One controller per tracker",
+        description: "Dedicated control hardware on every row.",
+      },
       {
         title: "Ramming / pre-drill / PHC foundation",
         description: "Approximately 450 piles per MW.",
       },
-      { title: "Galvanised / Mg-Zn coating", description: "Anti-corrosion protection on structure." },
+      {
+        title: "Galvanised / Mg-Zn coating",
+        description: "Anti-corrosion protection on structure.",
+      },
       { title: "Up to 100 modules", description: "Tracker length of 50–100 m." },
     ] satisfies Card[],
   },
@@ -349,17 +354,18 @@ export const contactPage = {
   heading: "Speak with our engineering team.",
   lede: "For tracker supply, technical consultation or partnership enquiries, please use the form or contact us directly.",
   formHeading: "Enquiry form",
-  requirements: [
-    "Tracker supply",
-    "Technical consultation",
-    "Partnership – EPC",
-    "Other",
-  ],
+  requirements: ["Tracker supply", "Technical consultation", "Partnership – EPC", "Other"],
 } as const;
 
 /* ------------------------------------------------------------ CTA BANDS */
 
 export const ctas = {
+  about: {
+    heading: "See the tracker.",
+    body: "The 2P-HSAT platform, its tracking technology and the full specification sheet are on one page.",
+    label: "View Product →",
+    to: "/product" as const,
+  },
   home: {
     heading: "Planning a solar plant?",
     body: "Our engineering team will recommend the appropriate tracking configuration for your site.",
@@ -402,9 +408,9 @@ export const seo = {
     path: "/technology",
   },
   "/product": {
-    title: "2P-HSAT Solar Tracker | Glarenergy",
+    title: "2P-HSAT Solar Tracker — Product, Technology and Specifications | Glarenergy",
     description:
-      "The Glarenergy 2P-HSAT horizontal single-axis tracker, available in HSAT 2P and TSAT 1P configurations for utility-scale solar plants.",
+      "The Glarenergy 2P-HSAT horizontal single-axis tracker: configurations, tracking technology and the complete specification sheet, on one page.",
     path: "/product",
   },
   "/specifications": {
@@ -412,6 +418,12 @@ export const seo = {
     description:
       "Complete mechanical, electrical, tracking and communication specifications for the Glarenergy single-axis tracker platform.",
     path: "/specifications",
+  },
+  "/about": {
+    title: "About Glarenergy | Precision Solar Tracking",
+    description:
+      "Glarenergy designs and engineers precision single-axis solar tracking systems for utility-scale solar plants.",
+    path: "/about",
   },
   "/contact": {
     title: "Contact Glarenergy | Solar Tracker Enquiries",

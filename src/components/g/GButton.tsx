@@ -16,17 +16,20 @@ const variants: Record<Variant, string> = {
 
 export function GButtonLink({
   to,
+  hash,
   variant = "primary",
   children,
   className,
 }: {
   to: string;
+  /** Anchor within the target route, e.g. the sections of the Product page. */
+  hash?: string;
   variant?: Variant;
   children: ReactNode;
   className?: string;
 }) {
   return (
-    <Link to={to} className={cn(base, variants[variant], className)}>
+    <Link to={to} {...(hash ? { hash } : {})} className={cn(base, variants[variant], className)}>
       {children}
     </Link>
   );
@@ -63,10 +66,7 @@ export function GButton({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
-    <button
-      className={cn(base, variants[variant], "disabled:opacity-60", className)}
-      {...props}
-    >
+    <button className={cn(base, variants[variant], "disabled:opacity-60", className)} {...props}>
       {children}
     </button>
   );
